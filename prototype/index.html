@@ -89,9 +89,12 @@
   .gnote{font-size:12px;color:var(--sub);margin:0 2px 12px}
   .lock{font-size:12.5px;color:#9a5b2e;background:#fdf3e8;border:1px solid #f0ddc4;border-radius:10px;padding:10px 13px;margin-bottom:12px}
 
-  .ocard{background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:15px 17px;margin-bottom:11px;cursor:pointer;transition:.12s}
+  .ocard{display:flex;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:13px 15px;margin-bottom:11px;cursor:pointer;transition:.12s}
   .ocard:hover{border-color:#b9c6d2}
   .ocard.sel{border-color:var(--primary);background:var(--primary-soft)}
+  .othumb{width:62px;height:62px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;font-size:25px;background:linear-gradient(135deg,#dbe4ec,#c2d1dd);border:1px solid #cfd9e2}
+  .othumb.muted{background:#eef1f4;filter:grayscale(1);opacity:.55}
+  .ocbody{flex:1;min-width:0}
   .ocard .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
   .ocard .lt{display:flex;align-items:center;gap:11px}
   .ocard .chk{width:22px;height:22px;border-radius:6px;border:2px solid #c5cfd8;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
@@ -400,24 +403,22 @@ function backToLanding(){
 }
 function renderViewer(){
   const v=document.getElementById("viewer"), vin=document.getElementById("viewerIn"), cap=document.getElementById("vcaption");
-  v.className="viewer "+S.mode;
-  // remove old hotspot
   const oh=v.querySelector(".hot"); if(oh)oh.remove();
-  if(S.mode==="vr"){
-    vin.innerHTML=`<div class="vbig">🧭</div><b>360° VR 플레이어</b><div style="font-size:12px;margin-top:6px;opacity:.85">드래그하여 공간 둘러보기 · 핫스팟(＋) 클릭 시 옵션 이동<br>옵션 선택 시 씬이 전환됩니다</div>`;
-    v.insertAdjacentHTML("beforeend",`<span class="vtag">VR 360 · ${S.type}</span>`);
-    const h=document.createElement("div"); h.className="hot"; h.textContent="＋"; h.style.top="46%"; h.style.left="60%";
-    h.onclick=()=>{ const i=groups().findIndex(g=>g.id==="프리미엄키친"); if(i>=0){S.activeGroup=i; renderOptions();} };
-    v.appendChild(h);
-    cap.textContent="VR 타입: 좌측 비주얼과 옵션이 양방향 연동됩니다.";
-  } else {
-    const sel = S.sel["바닥마감"]||S.sel["프리미엄리빙"];
-    vin.innerHTML=`<div class="vbig">🖼️</div><b>${S.type} 타입 대표 이미지</b><div style="font-size:12px;margin-top:6px;color:#5f6c78">옵션 앞쪽에 부착되는 썸네일 (선택 시 결과 이미지 교체)</div>
-      <div style="margin-top:12px;padding:7px 13px;background:#fff;border:1px solid #cfd8df;border-radius:8px;font-size:12px">현재 마감: ${sel?"선택 옵션 반영":"기본형"}</div>`;
-    v.insertAdjacentHTML("beforeend",`<span class="vtag">IMAGE · ${S.type}</span>`);
-    cap.textContent="썸네일 타입: 옵션 앞쪽에 결과 이미지가 부착되며, 견적은 동일하게 연동됩니다.";
-  }
+  if(S.mode!=="vr"){ v.classList.add("hidden"); cap.classList.add("hidden"); return; }
+  // VR 타입만 상단 360 플레이어 노출
+  v.classList.remove("hidden"); cap.classList.remove("hidden"); v.className="viewer vr";
+  vin.innerHTML=`<div class="vbig">🧭</div><b>360° VR 플레이어</b><div style="font-size:12px;margin-top:6px;opacity:.85">드래그하여 공간 둘러보기 · 핫스팟(＋) 클릭 시 옵션 이동<br>옵션 선택 시 씬이 전환됩니다</div>`;
+  v.insertAdjacentHTML("beforeend",`<span class="vtag">VR 360 · ${S.type}</span>`);
+  const h=document.createElement("div"); h.className="hot"; h.textContent="＋"; h.style.top="46%"; h.style.left="60%";
+  h.onclick=()=>{ const i=groups().findIndex(g=>g.id==="프리미엄키친"); if(i>=0){S.activeGroup=i; renderOptions();} };
+  v.appendChild(h);
+  cap.textContent="VR 타입: 360 플레이어와 옵션이 양방향 연동됩니다.";
 }
+const THUMB_ICON={"시스템에어컨":"❄️","바닥마감":"🪵","프리미엄리빙":"🛋️","프리미엄키친":"🍳","현관 중문":"🚪",
+  "프리미엄바스(욕실1)":"🛁","프리미엄바스(욕실2)":"🛁","스마트 감성조명":"💡","전동커튼":"🪟","에코세이버":"🌀",
+  "욕실복합환풍기":"💨","인덕션 3구":"🔥","전기오븐":"🍞","키친핏 냉장고":"🧊","식기세척기":"🍽️"};
+function thumb(g,it){ const ic=THUMB_ICON[g.name]||"🖼️"; const muted=(it.id==="no");
+  return `<div class="othumb${muted?' muted':''}">${ic}</div>`; }
 function renderOptions(){
   document.getElementById("modePill").textContent = S.mode==="vr"?"VR 연동":"썸네일";
   renderViewer();
@@ -451,10 +452,13 @@ function renderOptions(){
     const on=S.fp.wide;
     area.insertAdjacentHTML("beforeend",
       `<div class="ocard" id="wideToggle" style="border-style:dashed;${on?'border-color:var(--primary);background:var(--primary-soft)':''}">
-        <div class="top"><div class="lt"><div class="chk">${on?'✓':''}</div>
-        <div class="nm">평면옵션 · 와이드리빙</div></div>
-        <div class="pr ${on?'':'zero'}">${on?'적용':'미적용'}</div></div>
-        <div class="ds">거실 확장형 평면. 선택 시 거실/조명/에어컨 옵션 구성·가격이 변경됩니다.</div></div>`);
+        <div class="othumb">🧩</div>
+        <div class="ocbody">
+          <div class="top"><div class="lt"><div class="chk">${on?'✓':''}</div>
+          <div class="nm">평면옵션 · 와이드리빙</div></div>
+          <div class="pr ${on?'':'zero'}">${on?'적용':'미적용'}</div></div>
+          <div class="ds">거실 확장형 평면. 선택 시 거실/조명/에어컨 옵션 구성·가격이 변경됩니다.</div>
+        </div></div>`);
     document.getElementById("wideToggle").onclick=()=>{ S.fp.wide=!S.fp.wide; renderOptions(); };
   }
 
@@ -478,10 +482,13 @@ function card(g,it){
   const sel=S.sel[g.id]===it.id; const v=item_price(g,it); const free=(it.id==="no");
   const fpNote=(it.fp==="wide"&&S.fp.wide)?` <span style="color:var(--primary)">· 와이드리빙 적용</span>`:"";
   return `<div class="ocard ${sel?'sel':''}" data-id="${it.id}">
-    <div class="top"><div class="lt"><div class="chk">${sel?'✓':''}</div>
-      <div class="nm">${it.label}${free?'<span class="free">기본 제공</span>':''}</div></div>
-      <div class="pr ${v<=0?'zero':''}">${v<=0?'0원':'+'+won(v)+'<small> 원</small>'}</div></div>
-    ${(it.desc||fpNote)?`<div class="ds">${it.desc||''}${fpNote}</div>`:''}</div>`;
+    ${thumb(g,it)}
+    <div class="ocbody">
+      <div class="top"><div class="lt"><div class="chk">${sel?'✓':''}</div>
+        <div class="nm">${it.label}${free?'<span class="free">기본 제공</span>':''}</div></div>
+        <div class="pr ${v<=0?'zero':''}">${v<=0?'0원':'+'+won(v)+'<small> 원</small>'}</div></div>
+      ${(it.desc||fpNote)?`<div class="ds">${it.desc||''}${fpNote}</div>`:''}
+    </div></div>`;
 }
 
 /* =================== QUOTE =================== */
