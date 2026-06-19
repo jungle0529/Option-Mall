@@ -16,9 +16,9 @@
   body{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.5}
   .hidden{display:none!important}
   .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:13px 20px;background:var(--navy);color:#fff;height:var(--topbar)}
-  .brand{display:flex;align-items:baseline;gap:9px;font-weight:800;letter-spacing:.5px}
-  .brand .hash{color:var(--gold);font-size:19px}
-  .brand .nm{font-size:15px}
+  .brand{display:flex;align-items:center;gap:10px;height:26px}
+  .brand .ci-mark{height:23px;width:auto;display:block}
+  .brand .ci-word{font-size:16px;font-weight:800;letter-spacing:3px;line-height:1}
   .topbar .proj{font-size:12px;color:#a9bccc}
   .topbar .spacer{flex:1}
   .topbar .unit{font-size:12.5px;color:#cdd9e3}
@@ -134,7 +134,17 @@
 <body>
 
 <div class="topbar">
-  <div class="brand"><span class="hash">#</span><span class="nm">THE SHARP</span></div>
+  <div class="brand" title="THE SHARP">
+    <svg class="ci-mark" viewBox="0 0 40 40" aria-label="THE SHARP CI">
+      <g fill="#ffffff" transform="skewX(-9)">
+        <rect x="14" y="3" width="5.4" height="34" rx="1"/>
+        <rect x="24.5" y="3" width="5.4" height="34" rx="1"/>
+        <rect x="7" y="12.5" width="33" height="5.4" rx="1"/>
+        <rect x="3" y="23.5" width="33" height="5.4" rx="1"/>
+      </g>
+    </svg>
+    <span class="ci-word">THE SHARP</span>
+  </div>
   <span class="proj">더샵 송도그란테르 G5 · 옵션몰</span>
   <span class="spacer"></span>
   <span class="unit hidden" id="unitInfo"></span>
