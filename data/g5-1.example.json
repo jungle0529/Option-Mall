@@ -1,0 +1,173 @@
+{
+  "_comment": "더샵 송도그란테르 G5-1블록 옵션몰 데이터 인스턴스(스키마 예시). 가격은 모집공고 전문 기재값(부가세 포함), 유상옵션 카탈로그와 대조 필요. 평면옵션 종속/브랜드택1/기본차감 등 도메인 규칙을 구조로 표현.",
+  "project": {
+    "id": "dersarp-songdo-grante-g5",
+    "name": "더샵 송도그란테르 G5",
+    "location": "인천광역시 연수구 송도동",
+    "builder": "포스코이앤씨",
+    "moveInPlan": "2029-08",
+    "homepage": "https://더샵송도그란테르.kr",
+    "paymentSchedule": {
+      "계약금": { "rate": 0.1, "due": "계약시" },
+      "중도금": { "rate": 0.1, "due": "2026-10-05" },
+      "잔금": { "rate": 0.8, "due": "입주지정일" }
+    }
+  },
+  "block": {
+    "id": "g5-1",
+    "name": "G5-1블록",
+    "households": 853,
+    "buildings": 7,
+    "floors": "지하2~지상31층"
+  },
+  "housingTypes": [
+    {
+      "id": "84B",
+      "label": "84B",
+      "exclusiveArea": 84.28,
+      "viewerMode": "vr",
+      "vrSceneId": "g5-84B",
+      "floorPlanOptions": [
+        {
+          "id": "wide-living",
+          "name": "와이드리빙",
+          "desc": "거실 확장형 평면. 선택 시 거실/복도·주방·조명·시스템에어컨 구성과 가격이 변경됨",
+          "affects": ["premium-living", "system-aircon", "smart-lighting", "dress"]
+        }
+      ]
+    },
+    { "id": "84A", "label": "84A", "exclusiveArea": 84.86, "viewerMode": "image" },
+    { "id": "84C", "label": "84C", "exclusiveArea": 84.12, "viewerMode": "image" },
+    { "id": "124B", "label": "124B", "exclusiveArea": 124.81, "viewerMode": "vr", "vrSceneId": "g5-124B",
+      "floorPlanOptions": [
+        { "id": "wide-living", "name": "와이드리빙", "desc": "124B/C/D 와이드리빙", "affects": ["premium-living", "system-aircon", "smart-lighting", "dress"] }
+      ]
+    },
+    { "id": "124A", "label": "124A", "exclusiveArea": 124.57, "viewerMode": "image" },
+    { "id": "124C", "label": "124C", "exclusiveArea": 124.98, "viewerMode": "image" },
+    { "id": "124D", "label": "124D", "exclusiveArea": 124.98, "viewerMode": "image" },
+    { "id": "102A", "label": "102A", "viewerMode": "image" },
+    { "id": "102B", "label": "102B", "viewerMode": "image" },
+    { "id": "102C", "label": "102C", "viewerMode": "image" },
+    { "id": "102D", "label": "102D", "viewerMode": "image" },
+    { "id": "102E", "label": "102E", "viewerMode": "image" },
+    { "id": "128A", "label": "128A", "viewerMode": "none" },
+    { "id": "128B", "label": "128B", "viewerMode": "none" },
+    { "id": "128C", "label": "128C", "viewerMode": "none" },
+    { "id": "198PA", "label": "198PA", "viewerMode": "none" },
+    { "id": "198PB", "label": "198PB", "viewerMode": "none" }
+  ],
+  "optionGroups": [
+    {
+      "id": "system-aircon",
+      "name": "시스템에어컨",
+      "space": "전체",
+      "selectionType": "single",
+      "creditsBasic": true,
+      "note": "84·102타입 기본 2개소(거실,안방) / 124·128·198타입 기본 3개소. 고급형은 기본형 비용 차감 산정. 와이드리빙 선택 시 위치·대수 변경.",
+      "items": [
+        { "id": "ac-none", "label": "미선택(기본형)", "isDefault": true, "price": 0 },
+        {
+          "id": "ac-standard", "label": "일반형", "brand": "삼성",
+          "priceByType": {
+            "84A": { "total": 3600000, "설치": "주방+침실1+침실2", "대수": "3대" },
+            "84B": { "total": 3600000, "대수": "3대", "와이드리빙시": { "total": 3600000, "설치": "거실(1개소 추가)+주방+침실1" } },
+            "84C": { "total": 4000000, "대수": "3대" },
+            "102A": { "total": 4500000, "대수": "3대" },
+            "124B": { "total": 4500000, "대수": "3대", "와이드리빙시": { "설치": "거실(1개소 추가)+침실1+침실2" } },
+            "198PA": { "total": 7000000, "대수": "4대" },
+            "198PB": { "total": 7800000, "대수": "5대" }
+          }
+        },
+        {
+          "id": "ac-premium", "label": "고급형", "brand": "삼성", "creditsBasic": true,
+          "priceByType": {
+            "84A": { "total": 6000000, "대수": "5대" },
+            "102A": { "total": 6300000, "대수": "5대" },
+            "124B": { "total": 6300000, "대수": "6대" },
+            "198PA": { "total": 9000000, "대수": "7대" },
+            "198PB": { "total": 10500000, "대수": "8대" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "entrance-door",
+      "name": "중문",
+      "space": "현관",
+      "selectionType": "single",
+      "items": [
+        { "id": "door-none", "label": "미선택", "isDefault": true, "price": 0 },
+        { "id": "door-manual", "label": "수동+신발장 하부조명", "priceByType": { "공통": { "total": 1780000, "계약금": 178000, "중도금": 178000, "잔금": 1424000 } } },
+        { "id": "door-auto", "label": "자동+신발장 상·하부조명", "priceByType": { "공통": { "total": 2730000, "계약금": 273000, "중도금": 273000, "잔금": 2184000 }, "198PA": { "total": 1550000 } } }
+      ]
+    },
+    {
+      "id": "premium-living",
+      "name": "프리미엄리빙",
+      "space": "거실/복도",
+      "selectionType": "single",
+      "dependsOnFloorPlan": ["wide-living"],
+      "note": "벽판넬+간접조명+히든도어. 평면옵션 선택 여부에 따라 옵션1-1~2-4로 분기(벽판넬 범위/히든도어 개수 상이).",
+      "items": [
+        { "id": "pl-none", "label": "미선택", "isDefault": true, "price": 0 },
+        { "id": "pl-84b-opt1-1", "label": "옵션1-1 디자인월+간접조명", "appliesTo": ["84B"], "dependsOnFloorPlan": null, "priceByType": { "84B": { "total": 6750000 } } },
+        { "id": "pl-84b-opt1-2", "label": "옵션1-2 디자인월+간접조명(평면옵션1=와이드리빙 선택시)", "appliesTo": ["84B"], "dependsOnFloorPlan": ["wide-living"], "priceByType": { "84B": { "total": 10530000 } } },
+        { "id": "pl-84b-opt2-1", "label": "옵션2-1 디자인월+간접조명+히든도어", "appliesTo": ["84B"], "priceByType": { "84B": { "total": 6750000 } } },
+        { "id": "pl-84b-opt2-2", "label": "옵션2-2 +히든도어(평면옵션1 선택시)_와이드리빙", "appliesTo": ["84B"], "dependsOnFloorPlan": ["wide-living"], "priceByType": { "84B": { "total": 10450000 } } }
+      ]
+    },
+    {
+      "id": "appliance-induction",
+      "name": "인덕션3구",
+      "space": "주방",
+      "selectionType": "single",
+      "appliesTo": ["전타입"],
+      "items": [
+        { "id": "ind-none", "label": "미선택", "isDefault": true, "price": 0 },
+        { "id": "ind-samsung", "label": "삼성", "brand": "삼성", "price": 900000, "계약금": 90000, "중도금": 90000, "잔금": 720000 },
+        { "id": "ind-lg", "label": "LG", "brand": "LG", "price": 470000, "계약금": 47000, "중도금": 47000, "잔금": 376000 }
+      ]
+    },
+    {
+      "id": "appliance-kitchenfit",
+      "name": "키친핏(냉장/냉동/김치 3도어+톨수납장)",
+      "space": "주방",
+      "selectionType": "single",
+      "appliesTo": ["전타입"],
+      "items": [
+        { "id": "kf-none", "label": "미선택", "isDefault": true, "price": 0 },
+        { "id": "kf-samsung", "label": "삼성", "brand": "삼성", "price": 8250000 },
+        { "id": "kf-lg", "label": "LG", "brand": "LG", "price": 7810000 }
+      ]
+    },
+    {
+      "id": "eco-saver",
+      "name": "에코세이버(제습환기청정)",
+      "space": "전체",
+      "selectionType": "single",
+      "creditsBasic": true,
+      "excludes": ["기본 환기장치"],
+      "note": "선택 시 기본 환기장치 미시공(차감 정산).",
+      "items": [
+        { "id": "eco-none", "label": "미선택(기본형 환기장치)", "isDefault": true, "price": 0 },
+        { "id": "eco-standard", "label": "스탠다드형", "priceByType": { "84A": { "total": 3500000 }, "198PA": { "total": 7000000 } } },
+        { "id": "eco-premium", "label": "프리미엄형(각실)", "priceByType": { "84A": { "total": 6500000 }, "102A": { "total": 6900000 } } }
+      ]
+    },
+    {
+      "id": "bath-fan",
+      "name": "욕실복합환풍기(블루투스형)",
+      "space": "욕실",
+      "selectionType": "single",
+      "requires": ["system-aircon:전실"],
+      "creditsBasic": true,
+      "note": "전실 시스템에어컨 유상옵션 선택 시에만 선택 가능. 기본형 욕실팬 비용 차감.",
+      "items": [
+        { "id": "bf-none", "label": "미선택", "isDefault": true, "price": 0 },
+        { "id": "bf-1", "label": "1개소", "price": 231000 },
+        { "id": "bf-3", "label": "3개소", "price": 693000 }
+      ]
+    }
+  ]
+}
