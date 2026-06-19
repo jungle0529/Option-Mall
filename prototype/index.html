@@ -6,17 +6,16 @@
 <title>더샵 송도그란테르 G5 · 옵션몰</title>
 <style>
   :root{
-    /* THE SHARP · Prussian Blue 기반 (정확 hex 확인 필요) */
+    --topbar:50px;
     --navy:#072A44; --primary:#0B3A5B; --primary-2:#13456E; --primary-soft:#E9EFF5;
     --gold:#B89968; --ink:#1b2733; --sub:#69737e; --line:#e3e8ed; --bg:#f4f6f8; --panel:#fff;
-    --ok:#0B3A5B; --radius:12px; --shadow:0 1px 3px rgba(16,40,64,.07);
+    --radius:12px; --shadow:0 1px 3px rgba(16,40,64,.07);
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   body{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.5}
   .hidden{display:none!important}
-  /* brand header */
-  .topbar{display:flex;align-items:center;gap:14px;padding:13px 20px;background:var(--navy);color:#fff}
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:13px 20px;background:var(--navy);color:#fff;height:var(--topbar)}
   .brand{display:flex;align-items:baseline;gap:9px;font-weight:800;letter-spacing:.5px}
   .brand .hash{color:var(--gold);font-size:19px}
   .brand .nm{font-size:15px}
@@ -61,62 +60,61 @@
   .tcell .dot.vr{background:var(--primary)}
   .tcell .dot.thumb{background:#c4ccd4}
 
-  /* ============ OPTIONS ============ */
-  .wrap{max-width:880px;margin:0 auto;padding:18px 18px 110px}
-  .viewer{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin-bottom:8px;position:relative;background:#dfe5ea}
-  .viewer .v-in{height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#5f6c78}
-  .viewer.vr .v-in{background:radial-gradient(circle at 50% 40%,#163e5d,#0a2438);color:#dce8f2}
-  .viewer.thumb .v-in{background:linear-gradient(135deg,#e7edf2,#ced9e2)}
-  .viewer .vtag{position:absolute;top:12px;left:12px;font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(7,42,68,.85);color:#fff}
-  .viewer .vbig{font-size:34px;margin-bottom:8px}
-  .viewer .hot{position:absolute;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1b2733;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 0 7px rgba(184,153,104,.25)}
-  .vcaption{font-size:12px;color:var(--sub);margin:0 2px 20px}
+  /* ============ OPTIONS LAYOUT ============ */
+  .optlayout{display:flex;align-items:flex-start}
+  .optlayout.thumb{display:block}
+  /* VR: 좌측 풀 플레이어 + 우측 옵션 (ELIF형) */
+  .vrstage{flex:1.15;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));
+    background:radial-gradient(circle at 50% 38%,#16405f,#08243a);color:#dce8f2;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .optlayout.thumb .vrstage{display:none}
+  .vrstage .vbig{font-size:46px;margin-bottom:10px}
+  .vrstage b{font-size:17px}
+  .vrstage .vsub{font-size:12.5px;margin-top:8px;opacity:.85;line-height:1.7}
+  .vrstage .vtag{position:absolute;top:16px;left:16px;font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff}
+  .vrstage .hot{position:absolute;top:52%;left:62%;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#1b2733;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 0 8px rgba(184,153,104,.25)}
+  .optcol{flex:1;padding:22px 24px 120px}
+  .optlayout.vr .optcol{max-width:600px}
+  .optlayout.thumb .optcol{max-width:840px;margin:0 auto}
 
-  .blocktitle{font-size:19px;font-weight:800;margin:24px 2px 4px;display:flex;align-items:center;gap:9px}
+  .blocktitle{font-size:19px;font-weight:800;margin:4px 2px 4px;display:flex;align-items:center;gap:9px}
   .blocktitle .pill{font-size:11px;font-weight:700;color:#fff;background:var(--primary);padding:3px 10px;border-radius:6px}
-  .blockdesc{color:var(--sub);font-size:13px;margin:0 2px 16px}
+  .blockdesc{color:var(--sub);font-size:13px;margin:0 2px 20px}
 
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-  .chip{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#48535e}
-  .chip .cdot{width:9px;height:9px;border-radius:50%;background:#cfd6dc}
-  .chip.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
-  .chip.done .cdot{background:var(--gold)}
-  .chip.active{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-soft)}
+  .optgroup{margin-bottom:26px}
+  .grouphead{font-size:16px;font-weight:800;margin:0 2px 3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .grouphead .tag{font-size:11px;font-weight:700;color:var(--primary-2);background:var(--primary-soft);padding:3px 9px;border-radius:6px}
+  .grouphead .pick{font-size:11px;font-weight:700;color:#fff;background:var(--gold);padding:3px 9px;border-radius:6px}
+  .gnote{font-size:12.5px;color:var(--sub);margin:0 2px 12px}
+  .lock{font-size:12.5px;color:#9a5b2e;background:#fdf3e8;border:1px solid #f0ddc4;border-radius:10px;padding:11px 14px}
 
-  .grouphead{font-size:15px;font-weight:800;margin:6px 2px 4px;display:flex;align-items:center;gap:8px}
-  .grouphead .tag{font-size:11px;font-weight:700;color:#fff;background:var(--primary-2);padding:2px 8px;border-radius:5px}
-  .grouphead .pick{font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-soft);padding:2px 9px;border-radius:5px}
-  .gnote{font-size:12px;color:var(--sub);margin:0 2px 12px}
-  .lock{font-size:12.5px;color:#9a5b2e;background:#fdf3e8;border:1px solid #f0ddc4;border-radius:10px;padding:10px 13px;margin-bottom:12px}
-
-  .ocard{display:flex;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:13px 15px;margin-bottom:11px;cursor:pointer;transition:.12s}
+  .ocard{display:flex;gap:14px;background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:15px 17px;margin-bottom:11px;cursor:pointer;transition:.12s}
   .ocard:hover{border-color:#b9c6d2}
-  .ocard.sel{border-color:var(--primary);background:var(--primary-soft)}
-  .othumb{width:62px;height:62px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;font-size:25px;background:linear-gradient(135deg,#dbe4ec,#c2d1dd);border:1px solid #cfd9e2}
+  .ocard.sel{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 1px var(--primary)}
+  .othumb{width:72px;height:72px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#dbe4ec,#c2d1dd);border:1px solid #cfd9e2}
   .othumb.muted{background:#eef1f4;filter:grayscale(1);opacity:.55}
-  .ocbody{flex:1;min-width:0}
-  .ocard .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .ocbody{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .ocard .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
   .ocard .lt{display:flex;align-items:center;gap:11px}
-  .ocard .chk{width:22px;height:22px;border-radius:6px;border:2px solid #c5cfd8;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
+  .ocard .chk{width:24px;height:24px;border-radius:7px;border:2px solid #c5cfd8;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800}
   .ocard.sel .chk{background:var(--primary);border-color:var(--primary)}
-  .ocard .nm{font-weight:700;font-size:14.5px}
-  .ocard .free{font-size:11px;font-weight:700;color:#3f8a6e;background:#e6f4ee;padding:2px 8px;border-radius:5px;margin-left:7px}
-  .ocard .pr{font-weight:800;font-size:15px;white-space:nowrap}
-  .ocard .pr small{font-size:11px;color:var(--sub);font-weight:600}
-  .ocard .pr.zero{color:var(--sub);font-weight:600;font-size:13px}
-  .ocard .ds{font-size:12.5px;color:var(--sub);margin-top:9px;padding-left:33px}
-  .brandopts{display:flex;gap:9px;padding-left:33px;margin-top:11px}
-  .brandopts .b{flex:1;border:1.5px solid var(--line);border-radius:9px;padding:10px;text-align:center;cursor:pointer;font-weight:700}
-  .brandopts .b.on{border-color:var(--primary);background:#fff;box-shadow:0 0 0 2px var(--primary-soft)}
-  .brandopts .b small{display:block;font-weight:600;color:var(--sub);margin-top:3px}
+  .ocard .nm{font-weight:800;font-size:15px}
+  .ocard .free{font-size:11px;font-weight:700;color:#3f8a6e;background:#e6f4ee;padding:2px 8px;border-radius:5px;margin-left:7px;vertical-align:middle}
+  .ocard .pr{text-align:right;white-space:nowrap}
+  .ocard .pr .plus{display:block;font-size:11px;font-weight:700;color:var(--primary)}
+  .ocard .pr .amt{font-weight:800;font-size:16px}
+  .ocard .pr.zero .amt{color:var(--sub);font-weight:700;font-size:14px}
+  .ocard .ds{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.55}
+  .brandrow{display:flex;gap:9px;margin-top:2px}
+  .brandrow .b{flex:1;border:1.5px solid var(--line);border-radius:9px;padding:11px;text-align:center;cursor:pointer;font-weight:800}
+  .brandrow .b.on{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 1px var(--primary)}
+  .brandrow .b small{display:block;font-weight:600;color:var(--sub);margin-top:3px}
 
-  /* estimate bar */
-  .estbar{position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;z-index:40}
+  .estbar{position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;z-index:40}
   .estbar .lbl{font-size:12px;color:#a9bccc}
   .estbar .amt{font-size:23px;font-weight:800}
   .estbar .amt small{font-size:12px;color:#a9bccc;font-weight:500;margin-left:6px}
   .estbar .go{background:var(--gold);color:#1b2733;border:none;padding:13px 24px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14.5px}
-  .inner{max-width:880px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
 
   dialog{border:none;border-radius:16px;padding:0;width:min(460px,92vw);box-shadow:0 24px 70px rgba(7,42,68,.34)}
   dialog .dh{padding:17px 20px;border-bottom:1px solid var(--line);font-weight:800;display:flex;justify-content:space-between;font-size:16px}
@@ -126,12 +124,15 @@
   dialog .qrow .qg{color:var(--sub)}
   dialog .df{padding:16px 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
   dialog .df b:last-child{font-size:20px;color:var(--primary)}
-  @media(max-width:560px){ .typegrid{grid-template-columns:repeat(3,1fr)} .viewer .v-in{height:220px} }
+  @media(max-width:760px){
+    .optlayout{display:block} .vrstage{position:static;height:300px;width:100%}
+    .optlayout.vr .optcol,.optlayout.thumb .optcol{max-width:none}
+    .typegrid{grid-template-columns:repeat(3,1fr)}
+  }
 </style>
 </head>
 <body>
 
-<!-- ===== TOP BAR ===== -->
 <div class="topbar">
   <div class="brand"><span class="hash">#</span><span class="nm">THE SHARP</span></div>
   <span class="proj">더샵 송도그란테르 G5 · 옵션몰</span>
@@ -140,7 +141,7 @@
   <button class="linkbtn hidden" id="backBtn">← 동호수 변경</button>
 </div>
 
-<!-- ===== LANDING VIEW ===== -->
+<!-- ===== LANDING ===== -->
 <div id="viewLanding">
   <div class="land">
     <div class="hero">
@@ -148,7 +149,6 @@
       <h1>나의 집, 옵션을 직접 고르다</h1>
       <p>분양 고유번호를 입력하면 배정된 동·호수의 옵션 선택 화면이 열립니다.</p>
     </div>
-
     <div class="card lookup">
       <label for="codeInput">분양 고유번호</label>
       <div class="row">
@@ -163,33 +163,27 @@
       </div>
       <div class="card result hidden" id="resultCard"></div>
     </div>
-
     <div class="sec-title">전체 타입 둘러보기 (데모) <span style="font-weight:600;text-transform:none;letter-spacing:0">● VR &nbsp; ○ 썸네일</span></div>
     <div class="typegrid card" id="typeGrid" style="padding:14px"></div>
   </div>
 </div>
 
-<!-- ===== OPTIONS VIEW ===== -->
+<!-- ===== OPTIONS ===== -->
 <div id="viewOptions" class="hidden">
-  <div class="wrap">
-    <div class="viewer" id="viewer"><div class="v-in" id="viewerIn"></div></div>
-    <p class="vcaption" id="vcaption"></p>
-
-    <div class="blocktitle">옵션 선택 <span class="pill" id="modePill"></span></div>
-    <p class="blockdesc">필요한 항목을 선택하면 위 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
-
-    <div class="chips" id="chips"></div>
-    <div id="groupArea"></div>
-  </div>
-
-  <div class="estbar">
-    <div class="inner">
-      <div>
-        <div class="lbl"><span id="selCount">0</span>개 옵션 선택됨</div>
-        <div class="amt"><span id="estTotal">0</span><small>원 · 총 옵션금액</small></div>
-      </div>
-      <button class="go" id="quoteBtn">견적서 확인 →</button>
+  <div class="optlayout" id="optLayout">
+    <div class="vrstage" id="vrStage"></div>
+    <div class="optcol">
+      <div class="blocktitle">옵션 선택 <span class="pill" id="modePill"></span></div>
+      <p class="blockdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
+      <div id="groupArea"></div>
     </div>
+  </div>
+  <div class="estbar">
+    <div>
+      <div class="lbl"><span id="selCount">0</span>개 옵션 선택됨</div>
+      <div class="amt"><span id="estTotal">0</span><small>원 · 총 옵션금액</small></div>
+    </div>
+    <button class="go" id="quoteBtn">견적서 확인 →</button>
   </div>
 </div>
 
@@ -213,7 +207,7 @@ const UNITS = {
 
 /* =================== 타입 → 뷰어모드 / 옵션세트 / 가격패밀리 =================== */
 const VR_TYPES = ["84B","118K","124B"];
-function fam_g51(t){ return t.replace(/[A-Z]+$/,'').replace('P',''); }      // 84A->84, 198PA->198
+function fam_g51(t){ return t.replace(/[A-Z]+$/,'').replace('P',''); }
 const TYPES = {};
 function reg(set, list, famFn){ list.forEach(t=>TYPES[t]={set, fam:famFn(t), mode:VR_TYPES.includes(t)?"vr":"thumb"}); }
 reg("g5_1", ["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C","198PA","198PB"], fam_g51);
@@ -228,139 +222,127 @@ const BLOCKS = {
 };
 
 /* =================== 옵션 세트 (모집공고 전문 기준 · 부가세 포함 · 카탈로그 대조 필요) =================== */
-// 브랜드 택1 그룹 (전 세트 공통)
 function brandGroups(){return [
-  { id:"induction", name:"인덕션 3구", brand:true, items:[
-    {id:"no",label:"미선택",price:0},{id:"s",label:"삼성",sub:"3구",price:900000},{id:"l",label:"LG",sub:"3구",price:470000}]},
-  { id:"oven", name:"전기오븐", brand:true, items:[
-    {id:"no",label:"미선택",price:0},{id:"s",label:"삼성",price:495000},{id:"l",label:"LG",price:418000}]},
-  { id:"kitchenfit", name:"키친핏 냉장고", brand:true, note:"톨수납장+냉장/냉동/김치 3도어", items:[
-    {id:"no",label:"미선택",price:0},{id:"s",label:"삼성",price:8250000},{id:"l",label:"LG",price:7810000}]},
-  { id:"dishwasher", name:"식기세척기", brand:true, items:[
-    {id:"no",label:"미선택",price:0},{id:"s",label:"삼성",price:1370000},{id:"l",label:"LG",price:1040000}]}
+  { id:"induction", name:"인덕션 3구", brand:true, note:"기본 3구 하이브리드쿡탑 대신 인덕션 3구로 변경. 미선택 시 기본형 유지.", items:[
+    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:900000},{id:"l",label:"LG",price:470000}]},
+  { id:"oven", name:"전기오븐", brand:true, note:"주방 빌트인 전기오븐. 가전 도어 개폐방향은 세대 구조에 따라 상이.", items:[
+    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:495000},{id:"l",label:"LG",price:418000}]},
+  { id:"kitchenfit", name:"키친핏 냉장고", brand:true, note:"톨수납장 + 키친핏 냉장/냉동/김치 3도어. 미선택 시 냉장고·김치냉장고용 가구만 설치(도어 미제공).", items:[
+    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:8250000},{id:"l",label:"LG",price:7810000}]},
+  { id:"dishwasher", name:"식기세척기", brand:true, note:"주방 빌트인 식기세척기. 미선택 시 여닫이도어 설치.", items:[
+    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:1370000},{id:"l",label:"LG",price:1040000}]}
 ];}
-// fam 가격맵 헬퍼
 const single=(name,space,items,opt={})=>({id:opt.id||name,name,space,...opt,items});
 const base=(label,desc)=>({id:"no",label,desc,p:"zero"});
 
 const SETS = {
   g5_1:{ pay:"중도금 2026.10.05", groups:[
-    single("시스템에어컨","냉방",[ base("미선택 (기본형 거실·안방 제공)"),
-      {id:"std",label:"일반형",desc:"주방·침실 추가",p:{"84":3600000,"102":4500000,"124":4500000,"128":4500000,"198":7000000}},
-      {id:"prm",label:"고급형 (전실)",desc:"전실 확장 · 기본형 비용 차감 정산",jeonsil:true,p:{"84":6000000,"102":6300000,"124":6300000,"128":6300000,"198":9000000}}]),
-    single("바닥마감","바닥",[ base("미선택 (기본형)"),
-      {id:"gw",label:"광폭강마루 (w165)",p:{"84":990000,"102":1375000,"124":1540000,"128":1540000,"198":2310000}},
-      {id:"wd",label:"원목마루 (w150)",p:{"84":6930000,"102":7700000,"124":8690000,"128":8910000,"198":15950000}}]),
-    single("프리미엄리빙","거실/복도",[ base("미선택"),
-      {id:"sel",label:"디자인월+간접조명+히든도어",desc:"와이드리빙(평면옵션) 선택 시 구성·가격 변경",fp:"wide",
+    single("시스템에어컨","냉방",[ base("미선택 (기본형)","84·102타입 거실·안방 2개소 / 124·128·198타입 거실·주방·안방 3개소 천장형 시스템에어컨 기본 제공."),
+      {id:"std",label:"일반형",desc:"기본 제공 외 추가 설치(주방+침실1+침실2 등, 타입별 상이). 천장형 냉방 전용.",p:{"84":3600000,"102":4500000,"124":4500000,"128":4500000,"198":7000000}},
+      {id:"prm",label:"고급형 (전실)",desc:"거실+주방+안방+전 침실 전실 설치. 기본 제공 일반형 비용을 차감하여 산정. 에코세이버 연동 가능.",jeonsil:true,p:{"84":6000000,"102":6300000,"124":6300000,"128":6300000,"198":9000000}}]),
+    single("바닥마감","바닥",[ base("미선택 (기본형)","거실/침실 강마루바닥 기본 제공."),
+      {id:"gw",label:"전실 광폭강마루 (w165)",desc:"전실 광폭(165mm) 강마루 마감.",p:{"84":990000,"102":1375000,"124":1540000,"128":1540000,"198":2310000}},
+      {id:"wd",label:"전실 원목마루 (w150)",desc:"전실 원목(150mm) 마루. 천연자재 특성상 색상·패턴·질감이 상이할 수 있으며 하자처리 대상에서 제외.",p:{"84":6930000,"102":7700000,"124":8690000,"128":8910000,"198":15950000}}]),
+    single("프리미엄리빙","거실/복도",[ base("미선택","기본 마감/조명."),
+      {id:"sel",label:"디자인월 + 간접조명 + 히든도어",desc:"거실/복도 프리미엄 마감. 벽판넬 범위와 히든도어 개수는 평면옵션(와이드리빙)에 따라 달라짐.",fp:"wide",
         p:{"84":6750000,"102":6900000,"124":10290000,"128":13590000,"198":17410000},
-        fpP:{"84":10450000,"124":12130000}}],{note:"벽판넬+간접조명+히든도어"}),
-    single("프리미엄키친","주방",[ base("미선택 (기본 주방가구)"),
-      {id:"sel",label:"전동플랩장+독립형후드+고급 엔지니어드스톤",p:{"84":15000000,"102":17000000,"124":7200000,"128":7200000,"198":7700000}}]),
-    single("현관 중문","현관",[ base("미설치"),
-      {id:"m",label:"수동 + 신발장 하부조명",p:{"all":1780000}},
-      {id:"a",label:"자동 + 신발장 상·하부조명",p:{"all":2730000,"198":1550000}}]),
-    single("프리미엄바스(욕실1)","욕실",[ base("미선택"),
-      {id:"sel",label:"마감 고급화 / 스타일링바스",p:{"84":2580000,"102":3250000,"124":3250000,"128":3500000,"198":3500000}}]),
-    single("프리미엄바스(욕실2)","욕실",[ base("미선택"),
-      {id:"sel",label:"마감 고급화",p:{"84":2640000,"102":3300000,"124":3300000,"128":3800000,"198":3800000}}]),
-    single("스마트 감성조명","조명",[ base("미선택"),
-      {id:"sel",label:"더샵루미나 2.0 (직간접 특화+감성조명)",p:{"84":4500000,"102":4780000,"124":5500000,"128":5500000,"198":4780000}}]),
-    single("전동커튼","거실",[ base("미설치"),
-      {id:"sel",label:"전동커튼 (커튼지 별도)",p:{"84":1850000,"102":1850000,"124":1850000,"128":1350000,"198":1350000}}]),
-    single("에코세이버","환기",[ base("미선택 (기본형 환기장치)"),
-      {id:"std",label:"스탠다드형",p:{"84":3500000,"102":3500000,"124":3500000,"128":3500000,"198":7000000}},
-      {id:"prm",label:"프리미엄형 (각실)",p:{"84":6500000,"102":6900000,"124":7500000,"128":7500000,"198":12000000}}],{note:"선택 시 기본 환기장치 미시공(차감)"}),
-    single("욕실복합환풍기","욕실",[ base("미선택"),
-      {id:"1",label:"1개소 (블루투스형)",p:{"all":231000}},
-      {id:"3",label:"3개소 (블루투스형)",p:{"all":693000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
+        fpP:{"84":10450000,"124":12130000}}],{note:"벽판넬+간접조명+히든도어 (평면옵션 종속 분기)"}),
+    single("프리미엄키친","주방",[ base("미선택 (기본 주방가구)","강마루바닥, 엔지니어드스톤 상판, 3구 하이브리드쿡탑, 터치형 싱크수전, 기본 주방가구, 렌지후드, 기본조명 제공."),
+      {id:"sel",label:"전동플랩장 + 독립형 후드 + 고급 엔지니어드스톤",desc:"고급 엔지니어드스톤 벽/상판 + 고급수전 + 우물內 간접조명. 일부 타입은 평면변화(벽삭제) 또는 프레스티지급 포함.",p:{"84":15000000,"102":17000000,"124":7200000,"128":7200000,"198":7700000}}]),
+    single("현관 중문","현관",[ base("미설치","중문 미설치."),
+      {id:"m",label:"수동 중문",desc:"수동 중문 + 신발장 하부조명.",p:{"all":1780000}},
+      {id:"a",label:"자동 중문",desc:"자동 중문 + 신발장 상·하부조명. 구동부 점검을 위한 점검구 설치.",p:{"all":2730000,"198":1550000}}]),
+    single("프리미엄바스(욕실1)","욕실",[ base("미선택","기본 욕실 마감(국산 타일)."),
+      {id:"sel",label:"마감 고급화 / 스타일링바스",desc:"고급수전/도기/뒷선반 등 마감 고급화. 일부 타입은 스타일링바스(건식세면공간 평면변화) 적용.",p:{"84":2580000,"102":3250000,"124":3250000,"128":3500000,"198":3500000}}]),
+    single("프리미엄바스(욕실2)","욕실",[ base("미선택","기본 욕실 마감."),
+      {id:"sel",label:"마감 고급화",desc:"고급수전/도기/세면대상판/욕조상판 마감 고급화. 대형 타입은 조명형 욕실장 포함.",p:{"84":2640000,"102":3300000,"124":3300000,"128":3800000,"198":3800000}}]),
+    single("스마트 감성조명","조명",[ base("미선택","기본조명 제공."),
+      {id:"sel",label:"더샵루미나 2.0",desc:"거실 우물천장 직간접 특화조명 + 안방·침실 1,2 감성조명(색온도/밝기 제어). 월패드·앱 제어 가능.",p:{"84":4500000,"102":4780000,"124":5500000,"128":5500000,"198":4780000}}]),
+    single("전동커튼","거실",[ base("미설치","전동커튼 미설치."),
+      {id:"sel",label:"전동커튼",desc:"커튼 구동기 + 커튼레일 + 리모컨 제공(커튼지 별도).",p:{"84":1850000,"102":1850000,"124":1850000,"128":1350000,"198":1350000}}]),
+    single("에코세이버","환기",[ base("미선택 (기본형 환기장치)","기본형 환기장치 제공."),
+      {id:"std",label:"스탠다드형",desc:"제습환기청정유니트 + 이동형 실내공기질측정 + 환기장치. 시스템에어컨 자동 연동. 선택 시 기본 환기장치 미시공(차감 정산).",p:{"84":3500000,"102":3500000,"124":3500000,"128":3500000,"198":7000000}},
+      {id:"prm",label:"프리미엄형 (각실)",desc:"각실(안방/침실) 전동디퓨저 포함 제습환기청정. 거실·침실 시스템에어컨과 자동 연동.",p:{"84":6500000,"102":6900000,"124":7500000,"128":7500000,"198":12000000}}],{note:"선택 시 기본 환기장치 미시공(차감)"}),
+    single("욕실복합환풍기","욕실",[ base("미선택","기본형 욕실팬 제공."),
+      {id:"1",label:"1개소 (블루투스형)",desc:"블루투스형 욕실복합환풍기. 기본형 욕실팬 비용 차감.",p:{"all":231000}},
+      {id:"3",label:"3개소 (블루투스형)",desc:"블루투스형 욕실복합환풍기 3개소.",p:{"all":693000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
     ...brandGroups()
   ]},
   tower:{ pay:"중도금 2026.12.28", groups:[
-    single("시스템에어컨","냉방",[ base("미선택 (기본형)"),
-      {id:"std",label:"일반형",p:{"84K":4500000,"118K":4500000,"129K":5300000,"188K":7000000,"198PK":7000000}},
-      {id:"prm",label:"고급형 (전실)",jeonsil:true,p:{"84K":6300000,"118K":6300000,"129K":7500000,"188K":9000000,"198PK":9000000}}]),
-    single("바닥마감","바닥",[ base("미선택 (기본형)"),
-      {id:"gw",label:"광폭강마루 (w165)",p:{"84K":990000,"118K":1375000,"129K":1540000,"188K":2090000,"198PK":2310000}},
-      {id:"wd",label:"원목마루 (w150)",p:{"84K":6930000,"118K":7700000,"129K":8910000,"188K":14300000,"198PK":14300000}}]),
-    single("프리미엄리빙","거실/복도",[ base("미선택"),
-      {id:"sel",label:"디자인월+간접조명+히든도어",p:{"84K":7700000,"118K":10770000,"129K":8450000,"188K":13850000,"198PK":18890000}}],{note:"평면옵션(드레스라운지/서브마스터)에 따라 분기"}),
-    single("프리미엄키친","주방",[ base("미선택"),
-      {id:"sel",label:"프레스티지급 / 평면변화",p:{"84K":16500000,"118K":7700000,"129K":7700000,"188K":9000000,"198PK":7700000}}]),
-    single("현관 중문","현관",[ base("미설치"),
-      {id:"m",label:"수동 + 하부조명",p:{"84K":1780000,"118K":1780000,"129K":1780000,"188K":1870000,"198PK":1550000}},
-      {id:"a",label:"자동 + 상·하부조명",p:{"84K":2730000,"118K":2730000,"129K":2730000,"188K":2840000,"198PK":1550000}}]),
-    single("프리미엄바스(욕실1)","욕실",[ base("미선택"),
-      {id:"sel",label:"마감 고급화 / 스타일링바스",p:{"84K":2580000,"118K":3250000,"129K":3250000,"188K":3500000,"198PK":3500000}}]),
-    single("프리미엄바스(욕실2)","욕실",[ base("미선택"),
-      {id:"sel",label:"마감 고급화",p:{"84K":2640000,"118K":3300000,"129K":3300000,"188K":3800000,"198PK":3800000}}]),
-    single("스마트 감성조명","조명",[ base("미선택"),
-      {id:"sel",label:"더샵루미나 2.0",p:{"84K":4500000,"118K":4500000,"129K":5500000,"188K":5500000,"198PK":5500000}}]),
-    single("전동커튼","거실",[ base("미설치"),{id:"sel",label:"전동커튼",p:{"84K":1850000,"118K":1850000,"129K":1850000,"188K":1850000,"198PK":1850000}}]),
-    single("에코세이버","환기",[ base("미선택 (기본형 환기)"),
-      {id:"std",label:"스탠다드형",p:{"84K":3500000,"118K":3500000,"129K":3500000,"188K":3500000,"198PK":7000000}},
-      {id:"prm",label:"프리미엄형 (각실)",p:{"84K":6500000,"118K":6500000,"129K":10200000,"188K":10200000,"198PK":12000000}}],{note:"선택 시 기본 환기장치 미시공"}),
-    single("욕실복합환풍기","욕실",[ base("미선택"),
-      {id:"2",label:"2개소 (블루투스형)",p:{"all":1460000}},
-      {id:"3",label:"3개소 (블루투스형)",p:{"all":2180000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
+    single("시스템에어컨","냉방",[ base("미선택 (기본형)","84K 거실·안방 2개소 / 118·129·188·198 거실·주방·안방 3개소 기본 제공."),
+      {id:"std",label:"일반형",desc:"기본 제공 외 추가 설치(침실 등, 타입별 상이).",p:{"84K":4500000,"118K":4500000,"129K":5300000,"188K":7000000,"198PK":7000000}},
+      {id:"prm",label:"고급형 (전실)",desc:"전실 설치. 기본형 비용 차감 산정.",jeonsil:true,p:{"84K":6300000,"118K":6300000,"129K":7500000,"188K":9000000,"198PK":9000000}}]),
+    single("바닥마감","바닥",[ base("미선택 (기본형)","거실/침실 강마루바닥 기본."),
+      {id:"gw",label:"전실 광폭강마루 (w165)",desc:"전실 광폭 강마루 마감.",p:{"84K":990000,"118K":1375000,"129K":1540000,"188K":2090000,"198PK":2310000}},
+      {id:"wd",label:"전실 원목마루 (w150)",desc:"전실 원목마루. 천연자재 특성상 색·패턴 상이.",p:{"84K":6930000,"118K":7700000,"129K":8910000,"188K":14300000,"198PK":14300000}}]),
+    single("프리미엄리빙","거실/복도",[ base("미선택","기본 마감/조명."),
+      {id:"sel",label:"디자인월 + 간접조명 + 히든도어",desc:"평면옵션(드레스라운지/서브마스터)에 따라 구성·가격이 분기.",p:{"84K":7700000,"118K":10770000,"129K":8450000,"188K":13850000,"198PK":18890000}}],{note:"벽판넬+간접조명+히든도어"}),
+    single("프리미엄키친","주방",[ base("미선택 (기본 주방가구)","기본 주방가구·쿡탑·렌지후드 제공."),
+      {id:"sel",label:"프레스티지급 / 평면변화",desc:"프레스티지급 엔지니어드스톤 벽/상판 + 고급수전 + 우물內 간접조명. 84K는 평면변화 포함.",p:{"84K":16500000,"118K":7700000,"129K":7700000,"188K":9000000,"198PK":7700000}}]),
+    single("현관 중문","현관",[ base("미설치","중문 미설치."),
+      {id:"m",label:"수동 중문",desc:"수동 중문 + 신발장 하부조명.",p:{"84K":1780000,"118K":1780000,"129K":1780000,"188K":1870000,"198PK":1550000}},
+      {id:"a",label:"자동 중문",desc:"자동 중문 + 신발장 상·하부조명.",p:{"84K":2730000,"118K":2730000,"129K":2730000,"188K":2840000,"198PK":1550000}}]),
+    single("프리미엄바스(욕실1)","욕실",[ base("미선택","기본 욕실 마감."),
+      {id:"sel",label:"마감 고급화 / 스타일링바스",desc:"고급수전/도기/뒷선반. 118K 이상 스타일링바스(건식세면 평면변화).",p:{"84K":2580000,"118K":3250000,"129K":3250000,"188K":3500000,"198PK":3500000}}]),
+    single("프리미엄바스(욕실2)","욕실",[ base("미선택","기본 욕실 마감."),
+      {id:"sel",label:"마감 고급화",desc:"고급수전/도기/세면대상판/욕조상판. 대형은 조명형 욕실장 포함.",p:{"84K":2640000,"118K":3300000,"129K":3300000,"188K":3800000,"198PK":3800000}}]),
+    single("스마트 감성조명","조명",[ base("미선택","기본조명."),
+      {id:"sel",label:"더샵루미나 2.0",desc:"거실 직간접 특화조명 + 안방·침실 감성조명(색온도/밝기).",p:{"84K":4500000,"118K":4500000,"129K":5500000,"188K":5500000,"198PK":5500000}}]),
+    single("전동커튼","거실",[ base("미설치","미설치."),{id:"sel",label:"전동커튼",desc:"구동기+레일+리모컨(커튼지 별도).",p:{"84K":1850000,"118K":1850000,"129K":1850000,"188K":1850000,"198PK":1850000}}]),
+    single("에코세이버","환기",[ base("미선택 (기본형 환기)","기본형 환기장치."),
+      {id:"std",label:"스탠다드형",desc:"제습환기청정 + 실내공기질측정. 시스템에어컨 연동. 기본 환기장치 미시공.",p:{"84K":3500000,"118K":3500000,"129K":3500000,"188K":3500000,"198PK":7000000}},
+      {id:"prm",label:"프리미엄형 (각실)",desc:"각실 전동디퓨저 포함.",p:{"84K":6500000,"118K":6500000,"129K":10200000,"188K":10200000,"198PK":12000000}}],{note:"선택 시 기본 환기장치 미시공"}),
+    single("욕실복합환풍기","욕실",[ base("미선택","기본형 욕실팬."),
+      {id:"2",label:"2개소 (블루투스형)",desc:"블루투스형 복합환풍기 2개소. 기본 욕실팬 차감.",p:{"all":1460000}},
+      {id:"3",label:"3개소 (블루투스형)",desc:"블루투스형 복합환풍기 3개소.",p:{"all":2180000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
     ...brandGroups()
   ]},
   g5_11:{ pay:"중도금 2026.10.05", groups:[
-    single("시스템에어컨","냉방",[ base("미선택 (기본형)"),
-      {id:"std",label:"일반형",p:{"84":3600000,"100":4500000,"124":4500000,"128":4500000,"198":7000000}},
-      {id:"prm",label:"고급형 (전실)",jeonsil:true,p:{"84":6000000,"100":6300000,"124":6300000,"128":6300000,"198":9000000}}]),
-    single("바닥마감","바닥",[ base("미선택 (기본형)"),
-      {id:"gw",label:"광폭강마루 (w165)",p:{"84":990000,"100":1375000,"124":1540000,"128":1540000,"198":2310000}},
-      {id:"wd",label:"원목마루 (w150)",p:{"84":6930000,"100":7700000,"124":8690000,"128":8910000,"198":15950000}}]),
-    single("프리미엄리빙","거실/복도",[ base("미선택"),
-      {id:"sel",label:"디자인월+간접조명+히든도어",p:{"84":7040000,"100":6820000,"124":9690000,"128":13700000,"198":17480000}}],{note:"평면옵션에 따라 분기"}),
-    single("프리미엄키친","주방",[ base("미선택"),
-      {id:"sel",label:"전동플랩장+독립형후드+고급 엔지니어드스톤",p:{"84":15000000,"100":17000000,"124":7700000,"128":7700000,"198":7700000}}]),
-    single("현관 중문","현관",[ base("미설치"),
-      {id:"m",label:"수동 + 하부조명",p:{"all":1780000,"128":1630000}},
-      {id:"a",label:"자동 + 상·하부조명",p:{"all":2730000,"198":1550000}}]),
-    single("프리미엄바스(욕실1)","욕실",[ base("미선택"),
-      {id:"sel",label:"마감 고급화 / 스타일링바스",p:{"84":2580000,"100":3250000,"124":3250000,"128":3250000,"198":3500000}}]),
-    single("프리미엄바스(욕실2)","욕실",[ base("미선택"),
-      {id:"sel",label:"마감 고급화",p:{"84":2640000,"100":2640000,"124":3300000,"128":3800000,"198":3800000}}]),
-    single("스마트 감성조명","조명",[ base("미선택"),
-      {id:"sel",label:"더샵루미나 2.0",p:{"84":5300000,"100":4780000,"124":5500000,"128":5500000,"198":6500000}}]),
-    single("전동커튼","거실",[ base("미설치"),{id:"sel",label:"전동커튼",p:{"84":1350000,"100":1350000,"124":1850000,"128":1850000,"198":1850000}}]),
-    single("에코세이버","환기",[ base("미선택 (기본형 환기)"),
-      {id:"std",label:"스탠다드형",p:{"84":3500000,"100":3500000,"124":3500000,"128":3500000,"198":7000000}},
-      {id:"prm",label:"프리미엄형 (각실)",p:{"84":6500000,"100":6900000,"124":7500000,"128":7500000,"198":12000000}}],{note:"선택 시 기본 환기장치 미시공"}),
-    single("욕실복합환풍기","욕실",[ base("미선택"),
-      {id:"2",label:"2개소 (블루투스형)",p:{"all":1460000}},
-      {id:"3",label:"3개소 (블루투스형)",p:{"all":2180000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
+    single("시스템에어컨","냉방",[ base("미선택 (기본형)","84·100타입 2개소 / 124·128·198 3개소 기본 제공."),
+      {id:"std",label:"일반형",desc:"기본 제공 외 추가 설치(타입별 상이).",p:{"84":3600000,"100":4500000,"124":4500000,"128":4500000,"198":7000000}},
+      {id:"prm",label:"고급형 (전실)",desc:"전실 설치. 기본형 비용 차감 산정.",jeonsil:true,p:{"84":6000000,"100":6300000,"124":6300000,"128":6300000,"198":9000000}}]),
+    single("바닥마감","바닥",[ base("미선택 (기본형)","거실/침실 강마루바닥 기본."),
+      {id:"gw",label:"전실 광폭강마루 (w165)",desc:"전실 광폭 강마루 마감.",p:{"84":990000,"100":1375000,"124":1540000,"128":1540000,"198":2310000}},
+      {id:"wd",label:"전실 원목마루 (w150)",desc:"전실 원목마루. 천연자재 특성상 색·패턴 상이.",p:{"84":6930000,"100":7700000,"124":8690000,"128":8910000,"198":15950000}}]),
+    single("프리미엄리빙","거실/복도",[ base("미선택","기본 마감/조명."),
+      {id:"sel",label:"디자인월 + 간접조명 + 히든도어",desc:"평면옵션(프리미엄키친/와이드리빙)에 따라 분기.",p:{"84":7040000,"100":6820000,"124":9690000,"128":13700000,"198":17480000}}],{note:"벽판넬+간접조명+히든도어"}),
+    single("프리미엄키친","주방",[ base("미선택 (기본 주방가구)","기본 주방가구·쿡탑·렌지후드 제공."),
+      {id:"sel",label:"전동플랩장 + 독립형 후드 + 고급 엔지니어드스톤",desc:"고급 엔지니어드스톤 벽/상판 + 고급수전 + 우물內 간접조명. 일부 타입 평면변화 포함.",p:{"84":15000000,"100":17000000,"124":7700000,"128":7700000,"198":7700000}}]),
+    single("현관 중문","현관",[ base("미설치","중문 미설치."),
+      {id:"m",label:"수동 중문",desc:"수동 중문 + 신발장 하부조명.",p:{"all":1780000,"128":1630000}},
+      {id:"a",label:"자동 중문",desc:"자동 중문 + 신발장 상·하부조명.",p:{"all":2730000,"198":1550000}}]),
+    single("프리미엄바스(욕실1)","욕실",[ base("미선택","기본 욕실 마감."),
+      {id:"sel",label:"마감 고급화 / 스타일링바스",desc:"고급수전/도기/뒷선반. 100타입 이상 스타일링바스.",p:{"84":2580000,"100":3250000,"124":3250000,"128":3250000,"198":3500000}}]),
+    single("프리미엄바스(욕실2)","욕실",[ base("미선택","기본 욕실 마감."),
+      {id:"sel",label:"마감 고급화",desc:"고급수전/도기/세면대상판/욕조상판. 대형은 조명형 욕실장 포함.",p:{"84":2640000,"100":2640000,"124":3300000,"128":3800000,"198":3800000}}]),
+    single("스마트 감성조명","조명",[ base("미선택","기본조명."),
+      {id:"sel",label:"더샵루미나 2.0",desc:"거실 직간접 특화조명 + 안방·침실 감성조명(색온도/밝기).",p:{"84":5300000,"100":4780000,"124":5500000,"128":5500000,"198":6500000}}]),
+    single("전동커튼","거실",[ base("미설치","미설치."),{id:"sel",label:"전동커튼",desc:"구동기+레일+리모컨(커튼지 별도).",p:{"84":1350000,"100":1350000,"124":1850000,"128":1850000,"198":1850000}}]),
+    single("에코세이버","환기",[ base("미선택 (기본형 환기)","기본형 환기장치."),
+      {id:"std",label:"스탠다드형",desc:"제습환기청정 + 실내공기질측정. 기본 환기장치 미시공.",p:{"84":3500000,"100":3500000,"124":3500000,"128":3500000,"198":7000000}},
+      {id:"prm",label:"프리미엄형 (각실)",desc:"각실 전동디퓨저 포함.",p:{"84":6500000,"100":6900000,"124":7500000,"128":7500000,"198":12000000}}],{note:"선택 시 기본 환기장치 미시공"}),
+    single("욕실복합환풍기","욕실",[ base("미선택","기본형 욕실팬."),
+      {id:"2",label:"2개소 (블루투스형)",desc:"블루투스형 복합환풍기 2개소. 기본 욕실팬 차감.",p:{"all":1460000}},
+      {id:"3",label:"3개소 (블루투스형)",desc:"블루투스형 복합환풍기 3개소.",p:{"all":2180000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
     ...brandGroups()
   ]}
 };
 
 /* =================== STATE =================== */
-let S = { code:null, unit:null, type:null, set:null, fam:null, mode:null,
-          activeGroup:0, sel:{}, fp:{wide:false} };
+let S = { code:null, unit:null, type:null, set:null, fam:null, mode:null, sel:{}, fp:{wide:false} };
 const won = n => (n||0).toLocaleString("ko-KR");
-
+function groups(){ return SETS[S.set].groups; }
 function priceOf(item){
+  if(item.brand) return (typeof item.price==="number")?item.price:0;
   if(item.p==="zero"||item.p==null) return 0;
-  if(typeof item.price==="number") return item.price; // brand
   let map=item.p, v = map[S.fam] ?? map["all"] ?? 0;
   if(item.fp && S.fp[item.fp] && item.fpP && item.fpP[S.fam]!=null) v=item.fpP[S.fam];
   return v;
 }
-function groups(){ return SETS[S.set].groups; }
-function jeonsilOn(){
-  const g=groups().find(g=>g.id==="시스템에어컨"); const id=S.sel[g.id];
-  const it=g.items.find(i=>i.id===id); return !!(it&&it.jeonsil);
-}
-function groupEnabled(g){ if(g.requireJeonsil && !jeonsilOn()) return false; return true; }
-function total(){ let t=0; for(const g of groups()){ if(!groupEnabled(g))continue; const id=S.sel[g.id]; if(!id)continue;
-  const it=g.items.find(i=>i.id===id); if(it) t+=item_price(g,it); } return t; }
-function item_price(g,it){ return it.brand ? (typeof it.price==="number"?it.price:0) : priceOf(it); }
-function selList(){ const out=[]; for(const g of groups()){ if(!groupEnabled(g))continue; const id=S.sel[g.id]; if(!id)continue;
-  const it=g.items.find(i=>i.id===id); if(!it)continue; const v=item_price(g,it); if(v<=0)continue;
-  out.push({g:g.name,label:it.label,v}); } return out; }
-function selCount(){ return selList().length; }
+function jeonsilOn(){ const g=groups().find(g=>g.id==="시스템에어컨"); const it=g.items.find(i=>i.id===S.sel[g.id]); return !!(it&&it.jeonsil); }
+function groupEnabled(g){ return !(g.requireJeonsil && !jeonsilOn()); }
+function total(){ let t=0; for(const g of groups()){ if(!groupEnabled(g))continue; const it=g.items.find(i=>i.id===S.sel[g.id]); if(it)t+=priceOf(it); } return t; }
+function selList(){ const out=[]; for(const g of groups()){ if(!groupEnabled(g))continue; const it=g.items.find(i=>i.id===S.sel[g.id]); if(!it)continue; const v=priceOf(it); if(v<=0)continue; out.push({g:g.name,label:it.label,v}); } return out; }
 
 /* =================== LANDING =================== */
 function buildTypeGrid(){
@@ -373,10 +355,9 @@ function buildTypeGrid(){
   }
 }
 function lookup(code){
-  const u=UNITS[code]; const err=document.getElementById("lookErr"); const rc=document.getElementById("resultCard");
+  const u=UNITS[code], err=document.getElementById("lookErr"), rc=document.getElementById("resultCard");
   if(!u){ err.classList.remove("hidden"); rc.classList.add("hidden"); return; }
-  err.classList.add("hidden");
-  rc.className="card result"; const m=TYPES[u.type].mode;
+  err.classList.add("hidden"); rc.className="card result"; const m=TYPES[u.type].mode;
   rc.innerHTML=`<div class="who">${u.name} 님 · ${code}</div>
     <div class="uu">${u.block} ${u.dong}동 ${u.ho}호</div>
     <div class="ty"><b>${u.type} 타입</b> <span class="badge ${m}">${m==="vr"?"VR 360":"썸네일"}</span></div>
@@ -386,13 +367,12 @@ function lookup(code){
 
 /* =================== OPTIONS =================== */
 function openType(type,unit,code){
-  S.type=type; S.unit=unit; S.code=code; S.set=TYPES[type].set; S.fam=TYPES[type].fam; S.mode=TYPES[type].mode;
-  S.activeGroup=0; S.sel={}; S.fp={wide:false};
+  Object.assign(S,{type,unit,code,set:TYPES[type].set,fam:TYPES[type].fam,mode:TYPES[type].mode,sel:{},fp:{wide:false}});
   document.getElementById("viewLanding").classList.add("hidden");
   document.getElementById("viewOptions").classList.remove("hidden");
   document.getElementById("unitInfo").classList.remove("hidden");
   document.getElementById("backBtn").classList.remove("hidden");
-  document.getElementById("unitInfo").innerHTML = `${unit.block} ${unit.dong}·${unit.ho} · <b>${type}</b>`;
+  document.getElementById("unitInfo").innerHTML=`${unit.block} ${unit.dong}·${unit.ho} · <b>${type}</b>`;
   window.scrollTo(0,0); renderOptions();
 }
 function backToLanding(){
@@ -401,100 +381,75 @@ function backToLanding(){
   document.getElementById("unitInfo").classList.add("hidden");
   document.getElementById("backBtn").classList.add("hidden");
 }
-function renderViewer(){
-  const v=document.getElementById("viewer"), vin=document.getElementById("viewerIn"), cap=document.getElementById("vcaption");
-  const oh=v.querySelector(".hot"); if(oh)oh.remove();
-  if(S.mode!=="vr"){ v.classList.add("hidden"); cap.classList.add("hidden"); return; }
-  // VR 타입만 상단 360 플레이어 노출
-  v.classList.remove("hidden"); cap.classList.remove("hidden"); v.className="viewer vr";
-  vin.innerHTML=`<div class="vbig">🧭</div><b>360° VR 플레이어</b><div style="font-size:12px;margin-top:6px;opacity:.85">드래그하여 공간 둘러보기 · 핫스팟(＋) 클릭 시 옵션 이동<br>옵션 선택 시 씬이 전환됩니다</div>`;
-  v.insertAdjacentHTML("beforeend",`<span class="vtag">VR 360 · ${S.type}</span>`);
-  const h=document.createElement("div"); h.className="hot"; h.textContent="＋"; h.style.top="46%"; h.style.left="60%";
-  h.onclick=()=>{ const i=groups().findIndex(g=>g.id==="프리미엄키친"); if(i>=0){S.activeGroup=i; renderOptions();} };
-  v.appendChild(h);
-  cap.textContent="VR 타입: 360 플레이어와 옵션이 양방향 연동됩니다.";
-}
 const THUMB_ICON={"시스템에어컨":"❄️","바닥마감":"🪵","프리미엄리빙":"🛋️","프리미엄키친":"🍳","현관 중문":"🚪",
   "프리미엄바스(욕실1)":"🛁","프리미엄바스(욕실2)":"🛁","스마트 감성조명":"💡","전동커튼":"🪟","에코세이버":"🌀",
   "욕실복합환풍기":"💨","인덕션 3구":"🔥","전기오븐":"🍞","키친핏 냉장고":"🧊","식기세척기":"🍽️"};
-function thumb(g,it){ const ic=THUMB_ICON[g.name]||"🖼️"; const muted=(it.id==="no");
-  return `<div class="othumb${muted?' muted':''}">${ic}</div>`; }
-function renderOptions(){
-  document.getElementById("modePill").textContent = S.mode==="vr"?"VR 연동":"썸네일";
-  renderViewer();
-  // chips
-  const chips=document.getElementById("chips"); chips.innerHTML="";
-  groups().forEach((g,idx)=>{
-    const done = S.sel[g.id] && S.sel[g.id]!=="no" && groupEnabled(g);
-    const c=document.createElement("div");
-    c.className="chip"+(idx===S.activeGroup?" sel active":"")+(done?" done":"");
-    c.innerHTML=`<span class="cdot"></span>${g.name}`;
-    c.onclick=()=>{ S.activeGroup=idx; renderOptions(); };
-    chips.appendChild(c);
-  });
-  // active group cards
-  const area=document.getElementById("groupArea"); area.innerHTML="";
-  const g=groups()[S.activeGroup];
-  const pickName = (()=>{ const id=S.sel[g.id]; const it=g.items.find(i=>i.id===id); return (it&&id&&id!=="no")?it.label:null; })();
-  let head=`<div class="grouphead">${g.name} <span class="tag">${g.brand?"브랜드 택1":"단일 선택"}</span>`;
-  if(pickName && groupEnabled(g)) head+=`<span class="pick">선택: ${pickName}</span>`;
-  head+=`</div>`;
-  area.insertAdjacentHTML("beforeend",head);
-  if(g.note) area.insertAdjacentHTML("beforeend",`<p class="gnote">${g.note}</p>`);
+function thumb(g,it){ const muted=(it.id==="no"); return `<div class="othumb${muted?' muted':''}">${THUMB_ICON[g.name]||"🖼️"}</div>`; }
 
-  if(!groupEnabled(g)){
-    area.insertAdjacentHTML("beforeend",`<div class="lock">🔒 시스템에어컨 [고급형(전실)] 선택 시 활성화됩니다.</div>`);
-    return;
-  }
-  // wide-living toggle (해당 평면옵션이 가격에 반영되는 타입에서만 노출)
-  const hasWide = g.items.some(i=>i.fp==="wide" && i.fpP && i.fpP[S.fam]!=null);
-  if(hasWide){
-    const on=S.fp.wide;
-    area.insertAdjacentHTML("beforeend",
-      `<div class="ocard" id="wideToggle" style="border-style:dashed;${on?'border-color:var(--primary);background:var(--primary-soft)':''}">
-        <div class="othumb">🧩</div>
-        <div class="ocbody">
-          <div class="top"><div class="lt"><div class="chk">${on?'✓':''}</div>
-          <div class="nm">평면옵션 · 와이드리빙</div></div>
-          <div class="pr ${on?'':'zero'}">${on?'적용':'미적용'}</div></div>
-          <div class="ds">거실 확장형 평면. 선택 시 거실/조명/에어컨 옵션 구성·가격이 변경됩니다.</div>
-        </div></div>`);
-    document.getElementById("wideToggle").onclick=()=>{ S.fp.wide=!S.fp.wide; renderOptions(); };
-  }
-
-  if(g.brand){
-    // 미선택 카드 + 브랜드 버튼
-    g.items.filter(i=>i.id==="no").forEach(it=>area.insertAdjacentHTML("beforeend",card(g,it)));
-    let bh=`<div class="brandopts">`;
-    g.items.filter(i=>i.id!=="no").forEach(it=>{ const on=S.sel[g.id]===it.id;
-      bh+=`<div class="b ${on?'on':''}" data-id="${it.id}">${it.label}<small>+${won(it.price)}원</small></div>`; });
-    bh+=`</div>`; area.insertAdjacentHTML("beforeend",bh);
-    area.querySelectorAll(".brandopts .b").forEach(el=>el.onclick=()=>{ S.sel[g.id]=el.dataset.id; renderOptions(); });
-  } else {
-    g.items.forEach(it=>area.insertAdjacentHTML("beforeend",card(g,it)));
-    area.querySelectorAll(".ocard[data-id]").forEach(el=>el.onclick=()=>{ S.sel[g.id]=el.dataset.id; renderOptions(); });
-  }
-  // estimate bar
-  document.getElementById("selCount").textContent=selCount();
-  document.getElementById("estTotal").textContent=won(total());
+function renderStage(){
+  const st=document.getElementById("vrStage");
+  if(S.mode!=="vr"){ st.innerHTML=""; return; }
+  st.innerHTML=`<span class="vtag">VR 360 · ${S.type}</span><div class="vbig">🧭</div><b>360° VR 플레이어</b>
+    <div class="vsub">드래그하여 공간 둘러보기 · 핫스팟(＋) 클릭 시 옵션으로 이동<br>옵션 선택 시 좌측 씬이 전환됩니다</div>
+    <div class="hot" id="vrHot">＋</div>`;
+  document.getElementById("vrHot").onclick=()=>{ const el=document.querySelector('[data-anchor="프리미엄키친"]'); if(el)el.scrollIntoView({behavior:"smooth",block:"start"}); };
 }
-function card(g,it){
-  const sel=S.sel[g.id]===it.id; const v=item_price(g,it); const free=(it.id==="no");
-  const fpNote=(it.fp==="wide"&&S.fp.wide)?` <span style="color:var(--primary)">· 와이드리빙 적용</span>`:"";
-  return `<div class="ocard ${sel?'sel':''}" data-id="${it.id}">
+function priceCell(v){ return v<=0 ? `<div class="pr zero"><span class="amt">0 원</span></div>`
+  : `<div class="pr"><span class="plus">+옵션</span><span class="amt">${won(v)} 원</span></div>`; }
+function cardHTML(g,it){
+  const sel=S.sel[g.id]===it.id, v=priceOf(it), free=(it.id==="no");
+  const fpNote=(it.fp==="wide"&&S.fp.wide)?` <span style="color:var(--primary);font-weight:700">· 와이드리빙 적용</span>`:"";
+  return `<div class="ocard ${sel?'sel':''}" data-group="${g.id}" data-id="${it.id}">
     ${thumb(g,it)}
     <div class="ocbody">
       <div class="top"><div class="lt"><div class="chk">${sel?'✓':''}</div>
         <div class="nm">${it.label}${free?'<span class="free">기본 제공</span>':''}</div></div>
-        <div class="pr ${v<=0?'zero':''}">${v<=0?'0원':'+'+won(v)+'<small> 원</small>'}</div></div>
+        ${priceCell(v)}</div>
       ${(it.desc||fpNote)?`<div class="ds">${it.desc||''}${fpNote}</div>`:''}
     </div></div>`;
+}
+function wideHTML(){
+  const on=S.fp.wide;
+  return `<div class="ocard" data-wide="1" style="border-style:dashed;${on?'border-color:var(--primary);background:var(--primary-soft)':''}">
+    <div class="othumb">🧩</div>
+    <div class="ocbody"><div class="top"><div class="lt"><div class="chk">${on?'✓':''}</div>
+      <div class="nm">평면옵션 · 와이드리빙</div></div>
+      <div class="pr ${on?'':'zero'}"><span class="amt">${on?'적용':'미적용'}</span></div></div>
+      <div class="ds">거실 확장형 평면. 선택 시 거실/조명/시스템에어컨 옵션의 구성·가격이 변경됩니다.</div></div></div>`;
+}
+function groupHTML(g){
+  const enabled=groupEnabled(g);
+  const it=g.items.find(i=>i.id===S.sel[g.id]); const pick=(it&&S.sel[g.id]!=="no"&&enabled)?it.label:null;
+  let h=`<div class="optgroup" data-anchor="${g.name}"><div class="grouphead">${g.name} <span class="tag">${g.brand?'브랜드 택1':'단일 선택'}</span>`;
+  if(pick) h+=`<span class="pick">선택: ${pick}</span>`;
+  h+=`</div>`;
+  if(g.note) h+=`<p class="gnote">${g.note}</p>`;
+  if(!enabled){ return h+`<div class="lock">🔒 시스템에어컨 [고급형(전실)] 선택 시 활성화됩니다.</div></div>`; }
+  if(g.items.some(i=>i.fp==="wide" && i.fpP && i.fpP[S.fam]!=null)) h+=wideHTML();
+  if(g.brand){
+    h+=cardHTML(g,g.items.find(i=>i.id==="no"));
+    h+=`<div class="brandrow">`+g.items.filter(i=>i.id!=="no").map(it=>{
+      const on=S.sel[g.id]===it.id;
+      return `<div class="b ${on?'on':''}" data-group="${g.id}" data-id="${it.id}">${it.label}<small>+${won(it.price)}원</small></div>`;
+    }).join("")+`</div>`;
+  } else {
+    h+=g.items.map(it=>cardHTML(g,it)).join("");
+  }
+  return h+`</div>`;
+}
+function renderOptions(){
+  document.getElementById("optLayout").className="optlayout "+(S.mode==="vr"?"vr":"thumb");
+  document.getElementById("modePill").textContent=S.mode==="vr"?"VR 연동":"썸네일";
+  renderStage();
+  document.getElementById("groupArea").innerHTML=groups().map(groupHTML).join("");
+  document.getElementById("selCount").textContent=selList().length;
+  document.getElementById("estTotal").textContent=won(total());
 }
 
 /* =================== QUOTE =================== */
 function openQuote(){
   const list=selList(), body=document.getElementById("quoteBody");
-  body.innerHTML = `<div class="qrow"><span class="qg">세대</span><b>${S.unit.block} ${S.unit.dong}·${S.unit.ho} · ${S.type}</b></div>`+
+  body.innerHTML=`<div class="qrow"><span class="qg">세대</span><b>${S.unit.block} ${S.unit.dong}·${S.unit.ho} · ${S.type}</b></div>`+
     (list.length? list.map(r=>`<div class="qrow"><span class="qg">${r.g} · ${r.label}</span><b>${won(r.v)} 원</b></div>`).join("")
       : `<div style="color:#8a929b;padding:12px 0">선택된 유상옵션이 없습니다.</div>`)+
     `<div style="font-size:11px;color:#8a929b;margin-top:12px;line-height:1.6">※ 납부: 계약금 10% / ${SETS[S.set].pay} 중도금 10% / 잔금 80%(입주지정일).<br>※ 가격은 입주자모집공고 기준 · 유상옵션 카탈로그 대조 필요(확인 필요).</div>`;
@@ -510,6 +465,11 @@ document.querySelectorAll(".hint code").forEach(c=>c.onclick=()=>{ document.getE
 document.getElementById("backBtn").onclick=backToLanding;
 document.getElementById("quoteBtn").onclick=openQuote;
 document.getElementById("quoteClose").onclick=()=>document.getElementById("quoteModal").close();
+// 옵션 클릭 (이벤트 위임)
+document.getElementById("groupArea").addEventListener("click",e=>{
+  const w=e.target.closest("[data-wide]"); if(w){ S.fp.wide=!S.fp.wide; renderOptions(); return; }
+  const el=e.target.closest("[data-group]"); if(el){ S.sel[el.dataset.group]=el.dataset.id; renderOptions(); }
+});
 </script>
 </body>
 </html>
