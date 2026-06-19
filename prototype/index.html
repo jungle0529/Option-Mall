@@ -384,7 +384,7 @@ function backToLanding(){
 const THUMB_ICON={"시스템에어컨":"❄️","바닥마감":"🪵","프리미엄리빙":"🛋️","프리미엄키친":"🍳","현관 중문":"🚪",
   "프리미엄바스(욕실1)":"🛁","프리미엄바스(욕실2)":"🛁","스마트 감성조명":"💡","전동커튼":"🪟","에코세이버":"🌀",
   "욕실복합환풍기":"💨","인덕션 3구":"🔥","전기오븐":"🍞","키친핏 냉장고":"🧊","식기세척기":"🍽️"};
-function thumb(g,it){ const muted=(it.id==="no"); return `<div class="othumb${muted?' muted':''}">${THUMB_ICON[g.name]||"🖼️"}</div>`; }
+function thumb(g,it){ if(S.mode==="vr") return ""; const muted=(it.id==="no"); return `<div class="othumb${muted?' muted':''}">${THUMB_ICON[g.name]||"🖼️"}</div>`; }
 
 function renderStage(){
   const st=document.getElementById("vrStage");
@@ -411,7 +411,7 @@ function cardHTML(g,it){
 function wideHTML(){
   const on=S.fp.wide;
   return `<div class="ocard" data-wide="1" style="border-style:dashed;${on?'border-color:var(--primary);background:var(--primary-soft)':''}">
-    <div class="othumb">🧩</div>
+    ${S.mode==="vr"?"":'<div class="othumb">🧩</div>'}
     <div class="ocbody"><div class="top"><div class="lt"><div class="chk">${on?'✓':''}</div>
       <div class="nm">평면옵션 · 와이드리빙</div></div>
       <div class="pr ${on?'':'zero'}"><span class="amt">${on?'적용':'미적용'}</span></div></div>
