@@ -1,0 +1,12 @@
+{
+  "_comment": "분양 고유번호 → 동호수/타입 매핑 (Mock API 응답 계약). 실제로는 분양 고유번호 등록 시 서버가 이 형태의 JSON을 반환한다. viewerMode: vr(84B/118K/124B) | thumb(그 외). 개인정보는 최소 필드만(이름은 데모용 가명).",
+  "endpoint": "GET /api/units/{분양고유번호}",
+  "units": {
+    "G5-202401": { "block": "G5-1",  "dong": "101", "ho": "2402", "type": "84B",  "viewerMode": "vr",    "name": "홍길동" },
+    "G5-103-1203": { "block": "G5-1", "dong": "103", "ho": "1203", "type": "124B", "viewerMode": "vr",    "name": "이청약" },
+    "G5-301-1502": { "block": "G5-3", "dong": "301", "ho": "1502", "type": "118K", "viewerMode": "vr",    "name": "김분양" },
+    "G5-102-0808": { "block": "G5-1", "dong": "102", "ho": "0808", "type": "102C", "viewerMode": "thumb", "name": "박입주" },
+    "G5-11-0804": { "block": "G5-11", "dong": "108", "ho": "0804", "type": "100A", "viewerMode": "thumb", "name": "최예비" },
+    "G5-105-1701": { "block": "G5-1", "dong": "105", "ho": "1701", "type": "128B", "viewerMode": "thumb", "name": "정계약" }
+  }
+}
