@@ -16,7 +16,8 @@
   body{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.5}
   .hidden{display:none!important}
   .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:13px 20px;background:var(--navy);color:#fff;height:var(--topbar)}
-  .brand{display:flex;align-items:center;height:26px}
+  .brand{display:flex;align-items:center;height:28px}
+  .brand .ci-img{height:26px;width:auto;display:block}
   .brand .ci-word{font-family:"Times New Roman",Georgia,"Nanum Myeongjo",serif;font-variant:small-caps;font-weight:600;font-size:22px;letter-spacing:2px;line-height:1;color:#fff;white-space:nowrap}
   .topbar .proj{font-size:12px;color:#a9bccc}
   .topbar .spacer{flex:1}
@@ -133,7 +134,7 @@
 <body>
 
 <div class="topbar">
-  <div class="brand" title="THE SHARP"><span class="ci-word">The Sharp</span></div>
+  <div class="brand" title="THE SHARP"><img class="ci-img" src="assets/logo-thesharp.svg" alt="THE SHARP" onerror="logoFallback(this)"></div>
   <span class="proj">더샵 송도그란테르 G5 · 옵션몰</span>
   <span class="spacer"></span>
   <span class="unit hidden" id="unitInfo"></span>
@@ -455,6 +456,11 @@ function openQuote(){
   document.getElementById("quoteTotal").textContent=won(total())+" 원";
   document.getElementById("quoteModal").showModal();
 }
+
+/* 로고: assets/logo-thesharp.svg → .png → 텍스트 순으로 폴백 */
+let _logoTry=0;
+function logoFallback(img){ _logoTry++; if(_logoTry===1){ img.src="assets/logo-thesharp.png"; }
+  else { img.outerHTML='<span class="ci-word">The Sharp</span>'; } }
 
 /* =================== INIT =================== */
 buildTypeGrid();
