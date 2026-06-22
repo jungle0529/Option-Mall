@@ -405,11 +405,6 @@ function optionsHTML(){
   h+=`<div class="optcol">
     <h2 class="opttitle">옵션 선택</h2>
     <p class="optdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
-    <div class="laytabs">
-      <button data-act="layout" data-layout="list" class="${S.layout==='list'?'on':''}">리스트</button>
-      <button data-act="layout" data-layout="gallery" class="${S.layout==='gallery'?'on':''}">갤러리</button>
-      <button data-act="layout" data-layout="compact" class="${S.layout==='compact'?'on':''}">컴팩트</button>
-    </div>
     ${groups().map(groupHTML).join('')}
   </div></div>
   <div class="estbar"><div><div class="cnt">${selList().length}개 옵션 선택됨</div>
