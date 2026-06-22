@@ -4,197 +4,176 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>더샵 송도그란테르 G5 · 옵션몰</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
 <style>
-  :root{
-    --topbar:50px;
-    --navy:#072A44; --primary:#0B3A5B; --primary-2:#13456E; --primary-soft:#E9EFF5;
-    --gold:#B89968; --ink:#1b2733; --sub:#69737e; --line:#e3e8ed; --bg:#f4f6f8; --panel:#fff;
-    --radius:12px; --shadow:0 1px 3px rgba(16,40,64,.07);
-  }
+  :root{ --topbar:62px; --accent:#2B3340; --bar:#1B2430; --ink:#1B2430; --sub:#727A86;
+    --mut:#9098A2; --line:#E2DED7; --cardline:#EBE7E1; --bg:#F7F5F1; }
   *{box-sizing:border-box}
   html,body{margin:0}
-  body{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.5}
+  body{font-family:'Pretendard','Apple SD Gothic Neo',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+    background:var(--bg);color:#2A323D;font-size:14px;line-height:1.5}
   .hidden{display:none!important}
-  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:13px 20px;background:var(--navy);color:#fff;height:var(--topbar)}
-  .brand{display:flex;align-items:center;height:28px}
-  .brand .ci-img{height:26px;width:auto;display:block}
-  .brand .ci-word{font-family:"Times New Roman",Georgia,"Nanum Myeongjo",serif;font-variant:small-caps;font-weight:600;font-size:22px;letter-spacing:2px;line-height:1;color:#fff;white-space:nowrap}
-  .topbar .proj{font-size:12px;color:#a9bccc}
+  @keyframes livedot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+  ::selection{background:#cfe0ee}
+  input::placeholder{color:#b4bac2}
+  button{font-family:inherit}
+
+  /* header */
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:16px;padding:0 28px;height:var(--topbar);
+    background:rgba(255,255,255,.88);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid #ECE9E3}
+  .topbar .ci{height:28px;width:auto;display:block}
+  .topbar .divider{width:1px;height:22px;background:#E2DED7;display:inline-block}
+  .topbar .proj{font-weight:800;font-size:15px;letter-spacing:-.02em;color:#1E2733;white-space:nowrap}
+  .topbar .projsub{font-size:12px;color:#9098A2;letter-spacing:.04em;white-space:nowrap}
   .topbar .spacer{flex:1}
-  .topbar .unit{font-size:12.5px;color:#cdd9e3}
-  .topbar .unit b{color:#fff}
-  .linkbtn{background:transparent;border:1px solid #2e4a63;color:#cdd9e3;padding:7px 13px;border-radius:8px;cursor:pointer;font-size:13px}
-  .linkbtn:hover{background:#0d3550}
+  .topbar .unitchip{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#3A424D;background:#F1EFEA;padding:7px 13px;border-radius:9px;white-space:nowrap;font-weight:600}
+  .topbar .unitchip b{color:#1B2430;font-weight:800}
+  .topbar .phone{display:inline-flex;align-items:center;gap:7px;font-size:19px;color:#1B2430;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+  .topbar .back{border:1px solid #E2DED7;background:#fff;color:#3A424D;padding:7px 13px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600}
+  .topbar .back:hover{background:#f3f1ec}
 
-  /* ============ LANDING ============ */
-  .land{max-width:520px;margin:0 auto;padding:46px 22px 60px}
-  .hero{text-align:center;margin-bottom:30px}
-  .hero .km{display:inline-block;font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700;border:1px solid #e0d2bb;border-radius:30px;padding:4px 13px;margin-bottom:16px}
-  .hero h1{font-size:25px;margin:0 0 8px;letter-spacing:-.3px}
-  .hero p{color:var(--sub);margin:0;font-size:13.5px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-  .lookup{padding:24px 22px}
-  .lookup label{font-weight:700;font-size:13px}
-  .lookup .row{display:flex;gap:8px;margin-top:9px}
-  .lookup input{flex:1;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:15px;letter-spacing:.5px}
-  .lookup input:focus{outline:none;border-color:var(--primary)}
-  .btn{background:var(--primary);color:#fff;border:none;padding:0 20px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px}
-  .btn:hover{background:var(--primary-2)}
-  .btn.lg{width:100%;padding:14px;margin-top:14px}
-  .hint{font-size:12px;color:var(--sub);margin-top:12px}
-  .hint code{background:#eef1f4;padding:2px 7px;border-radius:5px;cursor:pointer;color:var(--primary-2);font-weight:600}
-  .err{color:#b23b54;font-size:13px;margin-top:10px}
-  .result{padding:20px 22px;margin-top:16px;border-left:4px solid var(--primary)}
-  .result .who{font-size:12px;color:var(--sub)}
-  .result .uu{font-size:21px;font-weight:800;margin:3px 0 2px}
-  .result .ty{display:inline-flex;align-items:center;gap:7px;margin-top:6px}
-  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
-  .badge.vr{background:#0B3A5B;color:#fff}
-  .badge.thumb{background:#eef1f4;color:#52606d}
-  .sec-title{margin:34px 2px 12px;font-size:13px;font-weight:800;color:var(--sub);letter-spacing:1px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
-  .typegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .typegrid .blk{grid-column:1/-1;font-size:12px;font-weight:700;color:var(--primary-2);margin-top:6px}
-  .tcell{background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;position:relative}
-  .tcell:hover{border-color:var(--primary);background:var(--primary-soft)}
-  .tcell .dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%}
-  .tcell .dot.vr{background:var(--primary)}
-  .tcell .dot.thumb{background:#c4ccd4}
+  /* landing */
+  .heroband{position:relative;overflow:hidden;background:linear-gradient(115deg,#CFE0EE 0%,#E9DCE4 42%,#E1D9EC 68%,#F3ECDF 100%)}
+  .heroband .sheen{position:absolute;top:-30%;right:-5%;width:46%;height:170%;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,0));transform:rotate(18deg);filter:blur(6px)}
+  .heroinner{position:relative;max-width:1080px;margin:0 auto;padding:74px 28px 96px;text-align:center}
+  .eyebrow{font-size:11px;letter-spacing:.34em;color:#5B6675;font-weight:700;margin-bottom:20px}
+  .heroinner h1{font-size:40px;line-height:1.25;margin:0 0 16px;font-weight:800;letter-spacing:-.03em;color:#1B2430}
+  .heroinner p{margin:0 auto;font-size:15.5px;color:#4A5462;line-height:1.7;max-width:480px}
+  .lookwrap{max-width:560px;margin:-52px auto 0;padding:0 22px;position:relative;z-index:2}
+  .lookcard{background:#fff;border:1px solid var(--cardline);border-radius:18px;box-shadow:0 18px 50px rgba(28,36,48,.10);padding:30px 30px 28px}
+  .lookcard label{font-weight:800;font-size:13px;color:#1E2733;letter-spacing:-.01em}
+  .lookrow{display:flex;gap:9px;margin-top:11px}
+  .lookrow input{flex:1;padding:14px 15px;border:1.5px solid var(--line);border-radius:11px;font-size:15px;letter-spacing:.04em;color:#1E2733;outline:none}
+  .lookrow input:focus{border-color:var(--accent)}
+  .lookrow .go{background:var(--accent);color:#fff;border:none;padding:0 24px;border-radius:11px;font-weight:800;cursor:pointer;font-size:14px}
+  .demohint{font-size:12px;color:var(--sub);margin-top:13px}
+  .demohint code{background:#F1EFEA;padding:3px 8px;border-radius:6px;cursor:pointer;color:#2B3340;font-weight:700;margin-right:4px}
+  .demohint code:hover{background:#2b3340;color:#fff}
+  .lookerr{color:#B23B54;font-size:12.5px;margin-top:11px}
+  .result{margin-top:20px;padding:20px 22px;border:1px solid var(--cardline);border-left:3px solid var(--accent);border-radius:13px;background:#FBFAF8}
+  .result .who{font-size:12px;color:var(--mut)}
+  .result .uu{font-size:22px;font-weight:800;margin:5px 0 2px;color:#1B2430;letter-spacing:-.02em}
+  .result .rty{margin-top:7px;font-size:14px;color:#2A323D;font-weight:700;display:inline-flex;align-items:center;gap:8px}
+  .result .badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+  .result .badge.vr{background:var(--accent);color:#fff}
+  .result .badge.thumb{background:#EEF1F4;color:#52606D}
+  .result .plabel{font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin:16px 0 8px}
+  .result .enter{width:100%;background:var(--accent);color:#fff;border:none;padding:15px;border-radius:12px;font-weight:800;cursor:pointer;font-size:14.5px;margin-top:18px;letter-spacing:-.01em}
+  .guidewrap{max-width:560px;margin:30px auto 84px;padding:0 22px}
+  .guidecard{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid var(--cardline);border-radius:16px;padding:20px 24px;cursor:pointer;box-shadow:0 1px 3px rgba(20,30,45,.05);transition:.14s}
+  .guidecard:hover{border-color:#CFD4DC;box-shadow:0 10px 28px rgba(20,30,45,.09);transform:translateY(-2px)}
+  .guidecard .gi{width:44px;height:44px;border-radius:12px;background:#EEF1F4;display:flex;align-items:center;justify-content:center;flex:none}
+  .guidecard .gt{font-weight:800;font-size:15.5px;color:#1B2430;letter-spacing:-.02em}
+  .guidecard .gd{font-size:12.5px;color:var(--sub);margin-top:3px}
+  .guidecard .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-weight:700;font-size:13px;padding:11px 17px;border-radius:10px;white-space:nowrap}
 
-  /* ============ OPTIONS LAYOUT ============ */
+  /* image slot placeholder */
+  .imgslot{display:flex;align-items:center;justify-content:center;text-align:center;background:#F1EFEA;border:1.5px dashed #D7D2C8;color:#9aa0a8;font-size:12px;border-radius:12px}
+
+  /* options */
   .optlayout{display:flex;align-items:flex-start}
   .optlayout.thumb{display:block}
-  /* VR: 좌측 풀 플레이어 + 우측 옵션 (ELIF형) */
-  .vrstage{flex:1.15;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));
-    background:radial-gradient(circle at 50% 38%,#16405f,#08243a);color:#dce8f2;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-  .optlayout.thumb .vrstage{display:none}
-  .vrstage .vbig{font-size:46px;margin-bottom:10px}
-  .vrstage b{font-size:17px}
-  .vrstage .vsub{font-size:12.5px;margin-top:8px;opacity:.85;line-height:1.7}
-  .vrstage .vtag{position:absolute;top:16px;left:16px;font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff}
-  .vrstage .hot{position:absolute;top:52%;left:62%;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#1b2733;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 0 8px rgba(184,153,104,.25)}
-  .optcol{flex:1;padding:22px 24px 120px}
-  .optlayout.vr .optcol{max-width:600px}
-  .optlayout.thumb .optcol{max-width:840px;margin:0 auto}
+  .vrstage{flex:1.1;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));background:#0E2233;overflow:hidden}
+  .vrstage iframe{width:100%;height:100%;border:0;display:block}
+  .vrtag{position:absolute;top:18px;left:18px;pointer-events:none;display:flex;align-items:center;gap:7px;background:rgba(14,28,44,.5);backdrop-filter:blur(6px);color:#fff;font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:30px;letter-spacing:.04em}
+  .vrtag .dot{width:7px;height:7px;border-radius:50%;background:#7FE0A8;display:inline-block;animation:livedot 1.8s ease-in-out infinite}
+  .optcol{padding:26px 30px 130px}
+  .optlayout.vr .optcol{flex:1;max-width:640px}
+  .optlayout.thumb .optcol{max-width:860px;margin:0 auto}
+  .opttitle{font-size:21px;font-weight:800;margin:2px 2px 5px;color:#1B2430;letter-spacing:-.02em}
+  .optdesc{color:var(--sub);font-size:13.5px;margin:0 2px 16px;line-height:1.6}
+  .laytabs{display:inline-flex;gap:3px;background:#ECE9E3;border-radius:10px;padding:4px;margin:0 0 22px}
+  .laytabs button{border:none;cursor:pointer;font-size:12.5px;font-weight:700;padding:7px 15px;border-radius:8px;background:transparent;color:#8A929C}
+  .laytabs button.on{background:#fff;color:#1B2430;box-shadow:0 1px 3px rgba(20,30,45,.12)}
 
-  .blocktitle{font-size:19px;font-weight:800;margin:4px 2px 4px;display:flex;align-items:center;gap:9px}
-  .blocktitle .pill{font-size:11px;font-weight:700;color:#fff;background:var(--primary);padding:3px 10px;border-radius:6px}
-  .blockdesc{color:var(--sub);font-size:13px;margin:0 2px 20px}
+  .optgroup{margin-bottom:30px}
+  .ghead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 2px 4px}
+  .ghead .gname{font-size:16.5px;font-weight:800;color:#1B2430;letter-spacing:-.02em}
+  .ghead .gtag{font-size:10.5px;font-weight:700;color:#2B3340;background:#EEF1F4;padding:3px 9px;border-radius:6px;letter-spacing:.02em}
+  .ghead .gpick{font-size:10.5px;font-weight:700;color:#fff;background:var(--accent);padding:3px 9px;border-radius:6px}
+  .gnote{font-size:12.5px;color:var(--sub);margin:0 2px 12px;line-height:1.55}
+  .glock{font-size:12.5px;color:#9A6B2E;background:#FBF3E7;border:1px solid #F0E0C6;border-radius:12px;padding:13px 15px}
 
-  .optgroup{margin-bottom:26px}
-  .grouphead{font-size:16px;font-weight:800;margin:0 2px 3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .grouphead .tag{font-size:11px;font-weight:700;color:var(--primary-2);background:var(--primary-soft);padding:3px 9px;border-radius:6px}
-  .grouphead .pick{font-size:11px;font-weight:700;color:#fff;background:var(--gold);padding:3px 9px;border-radius:6px}
-  .gnote{font-size:12.5px;color:var(--sub);margin:0 2px 12px}
-  .lock{font-size:12.5px;color:#9a5b2e;background:#fdf3e8;border:1px solid #f0ddc4;border-radius:10px;padding:11px 14px}
+  /* item cards */
+  .items.list,.items.compact{display:flex;flex-direction:column;gap:10px}
+  .items.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+  .chk{border-radius:7px;border:2px solid #C7CDD5;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+  .rowcard{display:flex;align-items:flex-start;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;transition:.12s}
+  .rowcard.compact{border-radius:11px;padding:11px 16px}
+  .rowcard.sel{background:#F1F3F6;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .rowcard .chk{width:23px;height:23px;font-size:13px;margin-top:1px}
+  .rowcard.compact .chk{width:20px;height:20px;margin-top:0}
+  .rowcard.sel .chk{background:var(--accent);border-color:var(--accent)}
+  .rowcard .nm{font-weight:800;font-size:15px;color:#1B2430;letter-spacing:-.01em}
+  .rowcard.compact .nm{font-size:14px}
+  .rowcard .free{font-size:10.5px;font-weight:700;color:#3C7A5E;background:#E7F0EA;padding:2px 8px;border-radius:6px}
+  .rowcard .ds{font-size:12.5px;color:var(--sub);margin-top:7px;line-height:1.55}
+  .rowcard .pr{font-weight:800;font-size:15px;color:var(--accent);white-space:nowrap;text-align:right;margin-top:1px}
+  .rowcard .pr.zero{font-size:13px;color:var(--mut)}
+  .nmrow{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 
-  .ocard{display:flex;gap:14px;background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:15px 17px;margin-bottom:11px;cursor:pointer;transition:.12s}
-  .ocard:hover{border-color:#b9c6d2}
-  .ocard.sel{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 1px var(--primary)}
-  .othumb{width:72px;height:72px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#dbe4ec,#c2d1dd);border:1px solid #cfd9e2}
-  .othumb.muted{background:#eef1f4;filter:grayscale(1);opacity:.55}
-  .ocbody{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
-  .ocard .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-  .ocard .lt{display:flex;align-items:center;gap:11px}
-  .ocard .chk{width:24px;height:24px;border-radius:7px;border:2px solid #c5cfd8;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800}
-  .ocard.sel .chk{background:var(--primary);border-color:var(--primary)}
-  .ocard .nm{font-weight:800;font-size:15px}
-  .ocard .free{font-size:11px;font-weight:700;color:#3f8a6e;background:#e6f4ee;padding:2px 8px;border-radius:5px;margin-left:7px;vertical-align:middle}
-  .ocard .pr{text-align:right;white-space:nowrap}
-  .ocard .pr .plus{display:block;font-size:11px;font-weight:700;color:var(--primary)}
-  .ocard .pr .amt{font-weight:800;font-size:16px}
-  .ocard .pr.zero .amt{color:var(--sub);font-weight:700;font-size:14px}
-  .ocard .ds{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.55}
-  .brandrow{display:flex;gap:9px;margin-top:2px}
-  .brandrow .b{flex:1;border:1.5px solid var(--line);border-radius:9px;padding:11px;text-align:center;cursor:pointer;font-weight:800}
-  .brandrow .b.on{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 1px var(--primary)}
-  .brandrow .b small{display:block;font-weight:600;color:var(--sub);margin-top:3px}
+  .galcard{background:#fff;border:1.5px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 1px 3px rgba(20,30,45,.05);transition:.12s}
+  .galcard.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .galtile{position:relative;height:92px;background:linear-gradient(125deg,#CFE0EE,#E9DCE4 55%,#E1D9EC);display:flex;align-items:flex-end;padding:12px 14px}
+  .galtile .tl{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(27,36,48,.62)}
+  .galtile .chk{position:absolute;top:10px;right:10px;width:22px;height:22px;font-size:12px;border-color:rgba(255,255,255,.85);background:rgba(255,255,255,.5)}
+  .galcard.sel .galtile .chk{background:var(--accent);border-color:var(--accent)}
+  .galbody{padding:14px 16px 16px}
+  .galbody .gnm{font-weight:800;font-size:14px;color:#1B2430;letter-spacing:-.01em;line-height:1.35}
+  .galbody .gpr{font-weight:800;font-size:13.5px;color:var(--accent);white-space:nowrap}
+  .galbody .gpr.zero{font-size:12px;color:var(--mut)}
+  .galbody .gds{font-size:12px;color:var(--sub);margin-top:8px;line-height:1.5}
+  .galbody .baseline{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 
-  .estbar{position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;z-index:40}
-  .estbar .lbl{font-size:12px;color:#a9bccc}
-  .estbar .amt{font-size:23px;font-weight:800}
-  .estbar .amt small{font-size:12px;color:#a9bccc;font-weight:500;margin-left:6px}
-  .estbar .go{background:var(--gold);color:#1b2733;border:none;padding:13px 24px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14.5px}
+  .widecard{display:flex;align-items:flex-start;gap:13px;background:#fff;border:1.5px dashed #CDD3DB;border-radius:14px;padding:15px 18px;cursor:pointer;margin-bottom:10px}
+  .widecard.on{background:#F1F3F6;border-color:var(--accent)}
+  .widecard .chk{width:23px;height:23px;font-size:13px;margin-top:1px}
+  .widecard.on .chk{background:var(--accent);border-color:var(--accent)}
 
-  dialog{border:none;border-radius:16px;padding:0;width:min(460px,92vw);box-shadow:0 24px 70px rgba(7,42,68,.34)}
-  dialog .dh{padding:17px 20px;border-bottom:1px solid var(--line);font-weight:800;display:flex;justify-content:space-between;font-size:16px}
-  dialog .dh .x{cursor:pointer;color:var(--sub);font-weight:500}
-  dialog .dc{padding:14px 20px;max-height:56vh;overflow:auto}
-  dialog .qrow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed #eef1f4;font-size:13px}
-  dialog .qrow .qg{color:var(--sub)}
-  dialog .df{padding:16px 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-  dialog .df b:last-child{font-size:20px;color:var(--primary)}
+  .brandrow{display:flex;gap:9px;margin-top:9px}
+  .brandrow .b{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:13px;text-align:center;cursor:pointer;background:#fff;transition:.12s}
+  .brandrow .b.on{background:#F1F3F6;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .brandrow .b .bl{font-weight:800;font-size:14px;color:#1B2430}
+  .brandrow .b .bp{font-weight:600;font-size:12px;color:var(--sub);margin-top:3px}
+
+  .estbar{position:fixed;left:0;right:0;bottom:0;background:rgba(27,34,46,.97);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:15px 28px;z-index:40;border-top:1px solid rgba(255,255,255,.08)}
+  .estbar .cnt{font-size:12px;color:#9DAAB8}
+  .estbar .amt{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+  .estbar .amt small{font-size:12px;color:#9DAAB8;font-weight:500;margin-left:7px}
+  .estbar .cta{background:#fff;color:#1B2430;border:none;padding:14px 26px;border-radius:11px;font-weight:800;cursor:pointer;font-size:14.5px;transition:.12s}
+  .estbar .cta:hover{filter:brightness(.96)}
+
+  /* modal */
+  .ovl{position:fixed;inset:0;background:rgba(21,28,24,.46);backdrop-filter:blur(3px);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+  .modal{background:#fff;border-radius:20px;width:min(480px,94vw);box-shadow:0 30px 80px rgba(15,24,36,.4);overflow:hidden}
+  .modal.lg{width:min(680px,95vw);max-height:92vh;overflow:auto;border-radius:22px}
+  .mh{padding:19px 22px;border-bottom:1px solid #EDEAE4;display:flex;justify-content:space-between;align-items:center}
+  .mh b{font-size:17px;color:#1B2430;letter-spacing:-.02em}
+  .mh .x{cursor:pointer;color:var(--mut);font-size:13px}
+  .mc{padding:8px 22px;max-height:54vh;overflow:auto}
+  .qrow{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px dashed #EDEAE4;font-size:13px}
+  .qrow span{color:var(--sub)} .qrow b{color:#1B2430}
+  .qnote{font-size:11px;color:var(--mut);margin:14px 0;line-height:1.65}
+  .mf{padding:17px 22px;border-top:1px solid #EDEAE4;display:flex;justify-content:space-between;align-items:center}
+  .mf b:last-child{font-size:21px;color:var(--accent);letter-spacing:-.02em}
+  .gtabs{display:flex;margin:22px 30px 0;border-bottom:1px solid var(--cardline)}
+  .gtabs button{flex:1;justify-content:center;display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font-size:14px;font-weight:700;color:#9098A2;padding:13px 4px;margin-bottom:-1px;border-bottom:2px solid transparent}
+  .gtabs button.on{font-weight:800;color:var(--accent);border-bottom-color:var(--accent)}
+
   @media(max-width:760px){
     .optlayout{display:block} .vrstage{position:static;height:300px;width:100%}
     .optlayout.vr .optcol,.optlayout.thumb .optcol{max-width:none}
-    .typegrid{grid-template-columns:repeat(3,1fr)}
+    .topbar{padding:0 16px;gap:10px} .topbar .phone{font-size:15px}
   }
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="brand" title="THE SHARP"><img class="ci-img" src="assets/logo-thesharp.svg" alt="THE SHARP" onerror="logoFallback(this)"></div>
-  <span class="proj">더샵 송도그란테르 G5 · 옵션몰</span>
-  <span class="spacer"></span>
-  <span class="unit hidden" id="unitInfo"></span>
-  <button class="linkbtn hidden" id="backBtn">← 동호수 변경</button>
-</div>
-
-<!-- ===== LANDING ===== -->
-<div id="viewLanding">
-  <div class="land">
-    <div class="hero">
-      <span class="km">PREMIUM OPTION</span>
-      <h1>나의 집, 옵션을 직접 고르다</h1>
-      <p>분양 고유번호를 입력하면 배정된 동·호수의 옵션 선택 화면이 열립니다.</p>
-    </div>
-    <div class="card lookup">
-      <label for="codeInput">분양 고유번호</label>
-      <div class="row">
-        <input id="codeInput" placeholder="예: G5-202401" autocomplete="off">
-        <button class="btn" id="lookBtn">조회</button>
-      </div>
-      <div class="err hidden" id="lookErr">해당 번호의 분양 정보를 찾을 수 없습니다. 번호를 확인해 주세요.</div>
-      <div class="hint">데모 번호:
-        <code data-code="G5-202401">G5-202401</code>
-        <code data-code="G5-301-1502">G5-301-1502</code>
-        <code data-code="G5-11-0804">G5-11-0804</code>
-      </div>
-      <div class="card result hidden" id="resultCard"></div>
-    </div>
-    <div class="sec-title">전체 타입 둘러보기 (데모) <span style="font-weight:600;text-transform:none;letter-spacing:0">● VR &nbsp; ○ 썸네일</span></div>
-    <div class="typegrid card" id="typeGrid" style="padding:14px"></div>
-  </div>
-</div>
-
-<!-- ===== OPTIONS ===== -->
-<div id="viewOptions" class="hidden">
-  <div class="optlayout" id="optLayout">
-    <div class="vrstage" id="vrStage"></div>
-    <div class="optcol">
-      <div class="blocktitle">옵션 선택 <span class="pill" id="modePill"></span></div>
-      <p class="blockdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
-      <div id="groupArea"></div>
-    </div>
-  </div>
-  <div class="estbar">
-    <div>
-      <div class="lbl"><span id="selCount">0</span>개 옵션 선택됨</div>
-      <div class="amt"><span id="estTotal">0</span><small>원 · 총 옵션금액</small></div>
-    </div>
-    <button class="go" id="quoteBtn">견적서 확인 →</button>
-  </div>
-</div>
-
-<dialog id="quoteModal">
-  <div class="dh"><span>견적서</span><span class="x" id="quoteClose">닫기 ✕</span></div>
-  <div class="dc" id="quoteBody"></div>
-  <div class="df"><b>총 옵션금액</b><b id="quoteTotal">0 원</b></div>
-</dialog>
+<div id="header"></div>
+<div id="app"></div>
+<div id="modals"></div>
 
 <script>
-/* =================== MOCK API: 분양 고유번호 → 동호수 =================== */
+/* ===================== DATA (모집공고 기준 · 부가세 포함 · 카탈로그 대조 필요) ===================== */
 const UNITS = {
   "G5-202401":  { block:"G5-1",  dong:"101", ho:"2402", type:"84B",  name:"홍길동" },
   "G5-103-1203":{ block:"G5-1",  dong:"103", ho:"1203", type:"124B", name:"이청약" },
@@ -203,40 +182,28 @@ const UNITS = {
   "G5-11-0804": { block:"G5-11", dong:"108", ho:"0804", type:"100A", name:"최예비" },
   "G5-105-1701":{ block:"G5-1",  dong:"105", ho:"1701", type:"128B", name:"정계약" }
 };
-// 실제: const res = await fetch(`/api/units/${code}`).then(r=>r.json());
-
-/* =================== 타입 → 뷰어모드 / 옵션세트 / 가격패밀리 =================== */
 const VR_TYPES = ["84B","118K","124B"];
-function fam_g51(t){ return t.replace(/[A-Z]+$/,'').replace('P',''); }
+const fam_g51 = t => t.replace(/[A-Z]+$/,'').replace('P','');
 const TYPES = {};
-function reg(set, list, famFn){ list.forEach(t=>TYPES[t]={set, fam:famFn(t), mode:VR_TYPES.includes(t)?"vr":"thumb"}); }
+const reg = (set,list,fn)=> list.forEach(t=>{ TYPES[t]={set,fam:fn(t),mode:VR_TYPES.includes(t)?'vr':'thumb'}; });
 reg("g5_1", ["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C","198PA","198PB"], fam_g51);
 reg("tower",["84K","118K","129K","188K","198PK"], t=>t);
 reg("g5_11",["84H","84I","84J","100A","100B","100C","124H","124I","128H","198PC"], t=>{
   if(t.startsWith("84"))return"84"; if(t.startsWith("100"))return"100";
   if(t.startsWith("124"))return"124"; if(t.startsWith("128"))return"128"; return"198"; });
-const BLOCKS = {
-  "G5-1":["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C","198PA","198PB"],
-  "G5-3·4·5·6 (타워)":["84K","118K","129K","188K","198PK"],
-  "G5-11":["84H","84I","84J","100A","100B","100C","124H","124I","128H","198PC"]
-};
+const BLOCK_OF={g5_1:"G5-1",tower:"G5-3·4·5·6 (타워)",g5_11:"G5-11"};
+const VR_SRC="https://player.xroo.io/space/02f4601f91624c1aa3ef9e8075471d58/1?startSceneID=633411";
 
-/* =================== 옵션 세트 (모집공고 전문 기준 · 부가세 포함 · 카탈로그 대조 필요) =================== */
-function brandGroups(){return [
-  { id:"induction", name:"인덕션 3구", brand:true, note:"기본 3구 하이브리드쿡탑 대신 인덕션 3구로 변경. 미선택 시 기본형 유지.", items:[
-    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:900000},{id:"l",label:"LG",price:470000}]},
-  { id:"oven", name:"전기오븐", brand:true, note:"주방 빌트인 전기오븐. 가전 도어 개폐방향은 세대 구조에 따라 상이.", items:[
-    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:495000},{id:"l",label:"LG",price:418000}]},
-  { id:"kitchenfit", name:"키친핏 냉장고", brand:true, note:"톨수납장 + 키친핏 냉장/냉동/김치 3도어. 미선택 시 냉장고·김치냉장고용 가구만 설치(도어 미제공).", items:[
-    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:8250000},{id:"l",label:"LG",price:7810000}]},
-  { id:"dishwasher", name:"식기세척기", brand:true, note:"주방 빌트인 식기세척기. 미선택 시 여닫이도어 설치.", items:[
-    {id:"no",label:"미선택"},{id:"s",label:"삼성",price:1370000},{id:"l",label:"LG",price:1040000}]}
-];}
+const brandGroups=()=>[
+  {id:"induction",name:"인덕션 3구",brand:true,note:"기본 3구 하이브리드쿡탑 대신 인덕션 3구로 변경. 미선택 시 기본형 유지.",items:[{id:"no",label:"미선택"},{id:"s",label:"삼성",price:900000},{id:"l",label:"LG",price:470000}]},
+  {id:"oven",name:"전기오븐",brand:true,note:"주방 빌트인 전기오븐. 가전 도어 개폐방향은 세대 구조에 따라 상이.",items:[{id:"no",label:"미선택"},{id:"s",label:"삼성",price:495000},{id:"l",label:"LG",price:418000}]},
+  {id:"kitchenfit",name:"키친핏 냉장고",brand:true,note:"톨수납장 + 키친핏 냉장/냉동/김치 3도어. 미선택 시 냉장고·김치냉장고용 가구만 설치(도어 미제공).",items:[{id:"no",label:"미선택"},{id:"s",label:"삼성",price:8250000},{id:"l",label:"LG",price:7810000}]},
+  {id:"dishwasher",name:"식기세척기",brand:true,note:"주방 빌트인 식기세척기. 미선택 시 여닫이도어 설치.",items:[{id:"no",label:"미선택"},{id:"s",label:"삼성",price:1370000},{id:"l",label:"LG",price:1040000}]}
+];
 const single=(name,space,items,opt={})=>({id:opt.id||name,name,space,...opt,items});
 const base=(label,desc)=>({id:"no",label,desc,p:"zero"});
-
 const SETS = {
-  g5_1:{ pay:"중도금 2026.10.05", groups:[
+  g5_1:{ pay:"2026.10.05", groups:[
     single("시스템에어컨","냉방",[ base("미선택 (기본형)","84·102타입 거실·안방 2개소 / 124·128·198타입 거실·주방·안방 3개소 천장형 시스템에어컨 기본 제공."),
       {id:"std",label:"일반형",desc:"기본 제공 외 추가 설치(주방+침실1+침실2 등, 타입별 상이). 천장형 냉방 전용.",p:{"84":3600000,"102":4500000,"124":4500000,"128":4500000,"198":7000000}},
       {id:"prm",label:"고급형 (전실)",desc:"거실+주방+안방+전 침실 전실 설치. 기본 제공 일반형 비용을 차감하여 산정. 에코세이버 연동 가능.",jeonsil:true,p:{"84":6000000,"102":6300000,"124":6300000,"128":6300000,"198":9000000}}]),
@@ -244,9 +211,7 @@ const SETS = {
       {id:"gw",label:"전실 광폭강마루 (w165)",desc:"전실 광폭(165mm) 강마루 마감.",p:{"84":990000,"102":1375000,"124":1540000,"128":1540000,"198":2310000}},
       {id:"wd",label:"전실 원목마루 (w150)",desc:"전실 원목(150mm) 마루. 천연자재 특성상 색상·패턴·질감이 상이할 수 있으며 하자처리 대상에서 제외.",p:{"84":6930000,"102":7700000,"124":8690000,"128":8910000,"198":15950000}}]),
     single("프리미엄리빙","거실/복도",[ base("미선택","기본 마감/조명."),
-      {id:"sel",label:"디자인월 + 간접조명 + 히든도어",desc:"거실/복도 프리미엄 마감. 벽판넬 범위와 히든도어 개수는 평면옵션(와이드리빙)에 따라 달라짐.",fp:"wide",
-        p:{"84":6750000,"102":6900000,"124":10290000,"128":13590000,"198":17410000},
-        fpP:{"84":10450000,"124":12130000}}],{note:"벽판넬+간접조명+히든도어 (평면옵션 종속 분기)"}),
+      {id:"sel",label:"디자인월 + 간접조명 + 히든도어",desc:"거실/복도 프리미엄 마감. 벽판넬 범위와 히든도어 개수는 평면옵션(와이드리빙)에 따라 달라짐.",fp:"wide",p:{"84":6750000,"102":6900000,"124":10290000,"128":13590000,"198":17410000},fpP:{"84":10450000,"124":12130000}}],{note:"벽판넬+간접조명+히든도어 (평면옵션 종속 분기)"}),
     single("프리미엄키친","주방",[ base("미선택 (기본 주방가구)","강마루바닥, 엔지니어드스톤 상판, 3구 하이브리드쿡탑, 터치형 싱크수전, 기본 주방가구, 렌지후드, 기본조명 제공."),
       {id:"sel",label:"전동플랩장 + 독립형 후드 + 고급 엔지니어드스톤",desc:"고급 엔지니어드스톤 벽/상판 + 고급수전 + 우물內 간접조명. 일부 타입은 평면변화(벽삭제) 또는 프레스티지급 포함.",p:{"84":15000000,"102":17000000,"124":7200000,"128":7200000,"198":7700000}}]),
     single("현관 중문","현관",[ base("미설치","중문 미설치."),
@@ -268,7 +233,7 @@ const SETS = {
       {id:"3",label:"3개소 (블루투스형)",desc:"블루투스형 욕실복합환풍기 3개소.",p:{"all":693000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
     ...brandGroups()
   ]},
-  tower:{ pay:"중도금 2026.12.28", groups:[
+  tower:{ pay:"2026.12.28", groups:[
     single("시스템에어컨","냉방",[ base("미선택 (기본형)","84K 거실·안방 2개소 / 118·129·188·198 거실·주방·안방 3개소 기본 제공."),
       {id:"std",label:"일반형",desc:"기본 제공 외 추가 설치(침실 등, 타입별 상이).",p:{"84K":4500000,"118K":4500000,"129K":5300000,"188K":7000000,"198PK":7000000}},
       {id:"prm",label:"고급형 (전실)",desc:"전실 설치. 기본형 비용 차감 산정.",jeonsil:true,p:{"84K":6300000,"118K":6300000,"129K":7500000,"188K":9000000,"198PK":9000000}}]),
@@ -297,7 +262,7 @@ const SETS = {
       {id:"3",label:"3개소 (블루투스형)",desc:"블루투스형 복합환풍기 3개소.",p:{"all":2180000}}],{requireJeonsil:true,note:"전실 시스템에어컨(고급형) 선택 시 활성화"}),
     ...brandGroups()
   ]},
-  g5_11:{ pay:"중도금 2026.10.05", groups:[
+  g5_11:{ pay:"2026.10.05", groups:[
     single("시스템에어컨","냉방",[ base("미선택 (기본형)","84·100타입 2개소 / 124·128·198 3개소 기본 제공."),
       {id:"std",label:"일반형",desc:"기본 제공 외 추가 설치(타입별 상이).",p:{"84":3600000,"100":4500000,"124":4500000,"128":4500000,"198":7000000}},
       {id:"prm",label:"고급형 (전실)",desc:"전실 설치. 기본형 비용 차감 산정.",jeonsil:true,p:{"84":6000000,"100":6300000,"124":6300000,"128":6300000,"198":9000000}}]),
@@ -328,153 +293,205 @@ const SETS = {
   ]}
 };
 
-/* =================== STATE =================== */
-let S = { code:null, unit:null, type:null, set:null, fam:null, mode:null, sel:{}, fp:{wide:false} };
-const won = n => (n||0).toLocaleString("ko-KR");
-function groups(){ return SETS[S.set].groups; }
-function priceOf(item){
-  if(item.brand) return (typeof item.price==="number")?item.price:0;
-  if(item.p==="zero"||item.p==null) return 0;
-  let map=item.p, v = map[S.fam] ?? map["all"] ?? 0;
-  if(item.fp && S.fp[item.fp] && item.fpP && item.fpP[S.fam]!=null) v=item.fpP[S.fam];
-  return v;
-}
-function jeonsilOn(){ const g=groups().find(g=>g.id==="시스템에어컨"); const it=g.items.find(i=>i.id===S.sel[g.id]); return !!(it&&it.jeonsil); }
-function groupEnabled(g){ return !(g.requireJeonsil && !jeonsilOn()); }
-function total(){ let t=0; for(const g of groups()){ if(!groupEnabled(g))continue; const it=g.items.find(i=>i.id===S.sel[g.id]); if(it)t+=priceOf(it); } return t; }
-function selList(){ const out=[]; for(const g of groups()){ if(!groupEnabled(g))continue; const it=g.items.find(i=>i.id===S.sel[g.id]); if(!it)continue; const v=priceOf(it); if(v<=0)continue; out.push({g:g.name,label:it.label,v}); } return out; }
+/* ===================== STATE & HELPERS ===================== */
+let S={ view:'landing', result:null, code:null, unit:null, type:null, set:null, fam:null, mode:null,
+        sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video' };
+const won=n=>(n||0).toLocaleString('ko-KR');
+const groups=()=>SETS[S.set].groups;
+function priceOf(it){ if(it.brand) return typeof it.price==='number'?it.price:0;
+  if(it.p==='zero'||it.p==null) return 0; const m=it.p; let v=(m[S.fam]!=null?m[S.fam]:(m.all!=null?m.all:0));
+  if(it.fp && S.fp[it.fp] && it.fpP && it.fpP[S.fam]!=null) v=it.fpP[S.fam]; return v; }
+function jeonsilOn(){ const g=groups().find(g=>g.id==='시스템에어컨'); if(!g)return false; const it=g.items.find(i=>i.id===S.sel[g.id]); return !!(it&&it.jeonsil); }
+const groupEnabled=g=>!(g.requireJeonsil && !jeonsilOn());
+function total(){ let t=0; for(const g of groups()){ if(!groupEnabled(g))continue; const it=g.items.find(i=>i.id===S.sel[g.id]); if(it)t+=priceOf(it);} return t; }
+function selList(){ const o=[]; for(const g of groups()){ if(!groupEnabled(g))continue; const it=g.items.find(i=>i.id===S.sel[g.id]); if(!it)continue; const v=priceOf(it); if(v<=0)continue; o.push({g:g.name,label:it.label,v}); } return o; }
 
-/* =================== LANDING =================== */
-function buildTypeGrid(){
-  const grid=document.getElementById("typeGrid"); grid.innerHTML="";
-  for(const [blk,list] of Object.entries(BLOCKS)){
-    const h=document.createElement("div"); h.className="blk"; h.textContent=blk; grid.appendChild(h);
-    list.forEach(t=>{ const c=document.createElement("div"); c.className="tcell";
-      c.innerHTML=`<span class="dot ${TYPES[t].mode}"></span>${t}`;
-      c.onclick=()=>openType(t,{block:blk.split(" ")[0],dong:"–",ho:"–",name:"미리보기"},"DEMO"); grid.appendChild(c); });
-  }
-}
+/* ===================== ACTIONS ===================== */
 function lookup(code){
-  const u=UNITS[code], err=document.getElementById("lookErr"), rc=document.getElementById("resultCard");
-  if(!u){ err.classList.remove("hidden"); rc.classList.add("hidden"); return; }
-  err.classList.add("hidden"); rc.className="card result"; const m=TYPES[u.type].mode;
-  rc.innerHTML=`<div class="who">${u.name} 님 · ${code}</div>
-    <div class="uu">${u.block} ${u.dong}동 ${u.ho}호</div>
-    <div class="ty"><b>${u.type} 타입</b> <span class="badge ${m}">${m==="vr"?"VR 360":"썸네일"}</span></div>
-    <button class="btn lg" id="enterBtn">옵션 선택 시작 →</button>`;
-  document.getElementById("enterBtn").onclick=()=>openType(u.type,u,code);
+  code=(code||'').trim();
+  const u=UNITS[code];
+  if(u){ S.result={code,unit:u,preview:false}; render(); return; }
+  const m=code.toUpperCase().replace(/\s/g,'').match(/^G5-(.+)$/);
+  if(m){ const t=m[1].toUpperCase(); if(TYPES[t]){
+    S.result={code:'G5-'+t,unit:{block:BLOCK_OF[TYPES[t].set].split(' ')[0],dong:'–',ho:'–',type:t,name:'타입 미리보기'},preview:true}; render(); return; } }
+  S.result={err:true}; render();
 }
+function openType(type,unit,code){ const T=TYPES[type]; Object.assign(S,{view:'options',type,unit,code,set:T.set,fam:T.fam,mode:T.mode,sel:{},fp:{wide:false},result:null}); window.scrollTo(0,0); render(); }
+function backToLanding(){ S.view='landing'; render(); }
 
-/* =================== OPTIONS =================== */
-function openType(type,unit,code){
-  Object.assign(S,{type,unit,code,set:TYPES[type].set,fam:TYPES[type].fam,mode:TYPES[type].mode,sel:{},fp:{wide:false}});
-  document.getElementById("viewLanding").classList.add("hidden");
-  document.getElementById("viewOptions").classList.remove("hidden");
-  document.getElementById("unitInfo").classList.remove("hidden");
-  document.getElementById("backBtn").classList.remove("hidden");
-  document.getElementById("unitInfo").innerHTML=`${unit.block} ${unit.dong}·${unit.ho} · <b>${type}</b>`;
-  window.scrollTo(0,0); renderOptions();
-}
-function backToLanding(){
-  document.getElementById("viewOptions").classList.add("hidden");
-  document.getElementById("viewLanding").classList.remove("hidden");
-  document.getElementById("unitInfo").classList.add("hidden");
-  document.getElementById("backBtn").classList.add("hidden");
-}
-const THUMB_ICON={"시스템에어컨":"❄️","바닥마감":"🪵","프리미엄리빙":"🛋️","프리미엄키친":"🍳","현관 중문":"🚪",
-  "프리미엄바스(욕실1)":"🛁","프리미엄바스(욕실2)":"🛁","스마트 감성조명":"💡","전동커튼":"🪟","에코세이버":"🌀",
-  "욕실복합환풍기":"💨","인덕션 3구":"🔥","전기오븐":"🍞","키친핏 냉장고":"🧊","식기세척기":"🍽️"};
-function thumb(g,it){ if(S.mode==="vr") return ""; const muted=(it.id==="no"); return `<div class="othumb${muted?' muted':''}">${THUMB_ICON[g.name]||"🖼️"}</div>`; }
-
-function renderStage(){
-  const st=document.getElementById("vrStage");
-  if(S.mode!=="vr"){ st.innerHTML=""; return; }
-  st.innerHTML=`<span class="vtag">VR 360 · ${S.type}</span><div class="vbig">🧭</div><b>360° VR 플레이어</b>
-    <div class="vsub">드래그하여 공간 둘러보기 · 핫스팟(＋) 클릭 시 옵션으로 이동<br>옵션 선택 시 좌측 씬이 전환됩니다</div>
-    <div class="hot" id="vrHot">＋</div>`;
-  document.getElementById("vrHot").onclick=()=>{ const el=document.querySelector('[data-anchor="프리미엄키친"]'); if(el)el.scrollIntoView({behavior:"smooth",block:"start"}); };
-}
-function priceCell(v){ return v<=0 ? `<div class="pr zero"><span class="amt">0 원</span></div>`
-  : `<div class="pr"><span class="plus">+옵션</span><span class="amt">${won(v)} 원</span></div>`; }
-function cardHTML(g,it){
-  const sel=S.sel[g.id]===it.id, v=priceOf(it), free=(it.id==="no");
-  const fpNote=(it.fp==="wide"&&S.fp.wide)?` <span style="color:var(--primary);font-weight:700">· 와이드리빙 적용</span>`:"";
-  return `<div class="ocard ${sel?'sel':''}" data-group="${g.id}" data-id="${it.id}">
-    ${thumb(g,it)}
-    <div class="ocbody">
-      <div class="top"><div class="lt"><div class="chk">${sel?'✓':''}</div>
-        <div class="nm">${it.label}${free?'<span class="free">기본 제공</span>':''}</div></div>
-        ${priceCell(v)}</div>
-      ${(it.desc||fpNote)?`<div class="ds">${it.desc||''}${fpNote}</div>`:''}
+/* ===================== RENDER: LANDING ===================== */
+function landingHTML(){
+  let h=`<div class="heroband"><div class="sheen"></div><div class="heroinner">
+    <div class="eyebrow">THE ENDLESS SYMBOL OF SONGDO</div>
+    <h1>나의 집, 옵션을 직접 고르다</h1>
+    <p>분양 고유번호를 입력하시면 배정된 동·호수의<br>옵션 선택 화면이 열립니다.</p></div></div>
+    <div class="lookwrap"><div class="lookcard">
+      <label for="codeInput">분양 고유번호</label>
+      <div class="lookrow">
+        <input id="codeInput" autocomplete="off" placeholder="예: G5-202401 또는 G5-84A" value="${S.result&&S.result.code?S.result.code:''}">
+        <button class="go" data-act="lookup">조회</button>
+      </div>
+      <div class="demohint">데모: <code data-act="demo" data-code="G5-202401">G5-202401</code><code data-act="demo" data-code="G5-301-1502">G5-301-1502</code> · 타입 미리보기 <code data-act="demo" data-code="G5-84A">G5-84A</code></div>`;
+  if(S.result&&S.result.err) h+=`<div class="lookerr">해당 번호의 분양 정보를 찾을 수 없습니다. 번호를 확인해 주세요.</div>`;
+  if(S.result&&S.result.unit){ const u=S.result.unit, vr=TYPES[u.type].mode==='vr', pv=S.result.preview;
+    h+=`<div class="result">
+      <div class="who">${pv?'타입 미리보기 · '+S.result.code:u.name+' 님 · '+S.result.code}</div>
+      <div class="uu">${pv?u.type+' 타입':u.block+' '+u.dong+'동 '+u.ho+'호'}</div>
+      <div class="rty"><b>${pv?u.block+' 구역':u.type+' 타입'}</b><span class="badge ${vr?'vr':'thumb'}">${vr?'VR 360':'썸네일'}</span></div>
+      <div class="plabel">평면도</div>
+      <div class="imgslot" style="width:100%;aspect-ratio:4/3">평면도 이미지 영역</div>
+      <button class="enter" data-act="enter" data-type="${u.type}">옵션 선택 시작 →</button>
+    </div>`;
+  }
+  h+=`</div></div>
+    <div class="guidewrap"><div class="guidecard" data-act="guide-open">
+      <div style="display:flex;align-items:center;gap:14px;min-width:0">
+        <div class="gi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B3340" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+        <div><div class="gt">옵션 계약 가이드</div><div class="gd">옵션 선택·계약 전, 이미지·영상 가이드를 확인하세요.</div></div>
+      </div>
+      <span class="gbtn">가이드 보기 →</span>
     </div></div>`;
+  return h;
 }
-function wideHTML(){
-  const on=S.fp.wide;
-  return `<div class="ocard" data-wide="1" style="border-style:dashed;${on?'border-color:var(--primary);background:var(--primary-soft)':''}">
-    ${S.mode==="vr"?"":'<div class="othumb">🧩</div>'}
-    <div class="ocbody"><div class="top"><div class="lt"><div class="chk">${on?'✓':''}</div>
-      <div class="nm">평면옵션 · 와이드리빙</div></div>
-      <div class="pr ${on?'':'zero'}"><span class="amt">${on?'적용':'미적용'}</span></div></div>
-      <div class="ds">거실 확장형 평면. 선택 시 거실/조명/시스템에어컨 옵션의 구성·가격이 변경됩니다.</div></div></div>`;
+
+/* ===================== RENDER: OPTIONS ===================== */
+function itemCardHTML(g,it){
+  const sel=S.sel[g.id]===it.id, v=priceOf(it), free=(it.id==='no'), zero=v<=0;
+  const priceText=zero?'포함':'+'+won(v)+'원';
+  const desc=it.desc||'';
+  if(S.layout==='gallery'){
+    return `<div class="galcard ${sel?'sel':''}" data-act="select" data-group="${g.id}" data-id="${it.id}">
+      <div class="galtile"><span class="tl">${g.name}</span><div class="chk">${sel?'✓':''}</div></div>
+      <div class="galbody"><div class="baseline"><span class="gnm">${it.label}</span><span class="gpr ${zero?'zero':''}">${priceText}</span></div>
+        ${free?'<span class="free" style="display:inline-block;margin-top:8px">기본 제공</span>':''}
+        ${desc?`<div class="gds">${desc}</div>`:''}</div></div>`;
+  }
+  const compact=S.layout==='compact';
+  return `<div class="rowcard ${compact?'compact':''} ${sel?'sel':''}" data-act="select" data-group="${g.id}" data-id="${it.id}">
+    <div class="chk">${sel?'✓':''}</div>
+    <div style="flex:1;min-width:0"><div class="nmrow"><span class="nm">${it.label}</span>${free?'<span class="free">기본 제공</span>':''}</div>
+      ${(!compact&&desc)?`<div class="ds">${desc}</div>`:''}</div>
+    <span class="pr ${zero?'zero':''}">${priceText}</span></div>`;
 }
 function groupHTML(g){
   const enabled=groupEnabled(g);
-  const it=g.items.find(i=>i.id===S.sel[g.id]); const pick=(it&&S.sel[g.id]!=="no"&&enabled)?it.label:null;
-  let h=`<div class="optgroup" data-anchor="${g.name}"><div class="grouphead">${g.name} <span class="tag">${g.brand?'브랜드 택1':'단일 선택'}</span>`;
-  if(pick) h+=`<span class="pick">선택: ${pick}</span>`;
-  h+=`</div>`;
+  const selItem=g.items.find(i=>i.id===S.sel[g.id]);
+  const pick=(selItem && S.sel[g.id]!=='no' && enabled)?selItem.label:null;
+  let h=`<div class="optgroup" data-anchor="${g.name}"><div class="ghead"><span class="gname">${g.name}</span>
+    <span class="gtag">${g.brand?'브랜드 택1':'단일 선택'}</span>${pick?`<span class="gpick">선택: ${pick}</span>`:''}</div>`;
   if(g.note) h+=`<p class="gnote">${g.note}</p>`;
-  if(!enabled){ return h+`<div class="lock">🔒 시스템에어컨 [고급형(전실)] 선택 시 활성화됩니다.</div></div>`; }
-  if(g.items.some(i=>i.fp==="wide" && i.fpP && i.fpP[S.fam]!=null)) h+=wideHTML();
-  if(g.brand){
-    h+=cardHTML(g,g.items.find(i=>i.id==="no"));
-    h+=`<div class="brandrow">`+g.items.filter(i=>i.id!=="no").map(it=>{
-      const on=S.sel[g.id]===it.id;
-      return `<div class="b ${on?'on':''}" data-group="${g.id}" data-id="${it.id}">${it.label}<small>+${won(it.price)}원</small></div>`;
-    }).join("")+`</div>`;
-  } else {
-    h+=g.items.map(it=>cardHTML(g,it)).join("");
+  if(!enabled) return h+`<div class="glock">🔒 시스템에어컨 [고급형(전실)] 선택 시 활성화됩니다.</div></div>`;
+  if(g.items.some(i=>i.fp==='wide' && i.fpP && i.fpP[S.fam]!=null)){ const on=S.fp.wide;
+    h+=`<div class="widecard ${on?'on':''}" data-act="wide"><div class="chk">${on?'✓':''}</div>
+      <div style="flex:1;min-width:0"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+        <span class="nm">평면옵션 · 와이드리빙</span><span class="pr ${on?'':'zero'}">${on?'적용':'미적용'}</span></div>
+        <div class="ds">거실 확장형 평면. 선택 시 거실·조명·시스템에어컨 옵션의 구성·가격이 변경됩니다.</div></div></div>`;
   }
+  if(g.brand){
+    h+=`<div class="items ${S.layout}">`+itemCardHTML(g,g.items.find(i=>i.id==='no'))+`</div>`;
+    h+=`<div class="brandrow">`+g.items.filter(i=>i.id!=='no').map(it=>{ const on=S.sel[g.id]===it.id;
+      return `<div class="b ${on?'on':''}" data-act="select" data-group="${g.id}" data-id="${it.id}"><div class="bl">${it.label}</div><div class="bp">+${won(it.price)}원</div></div>`;
+    }).join('')+`</div>`;
+  } else {
+    h+=`<div class="items ${S.layout}">`+g.items.map(it=>itemCardHTML(g,it)).join('')+`</div>`;
+  }
+  if(S.mode!=='vr') h+=`<div style="margin-top:14px"><div class="imgslot" style="width:100%;aspect-ratio:16/10">선택한 옵션의 이미지 영역</div></div>`;
   return h+`</div>`;
 }
-function renderOptions(){
-  document.getElementById("optLayout").className="optlayout "+(S.mode==="vr"?"vr":"thumb");
-  document.getElementById("modePill").textContent=S.mode==="vr"?"VR 연동":"썸네일";
-  renderStage();
-  document.getElementById("groupArea").innerHTML=groups().map(groupHTML).join("");
-  document.getElementById("selCount").textContent=selList().length;
-  document.getElementById("estTotal").textContent=won(total());
+function optionsHTML(){
+  const vr=S.mode==='vr';
+  let h=`<div class="optlayout ${vr?'vr':'thumb'}">`;
+  if(vr) h+=`<div class="vrstage"><iframe src="${VR_SRC}" allow="fullscreen; xr-spatial-tracking; accelerometer; gyroscope; magnetometer" allowfullscreen="true"></iframe>
+    <div class="vrtag"><span class="dot"></span>VR 360 · ${S.type}</div></div>`;
+  h+=`<div class="optcol">
+    <h2 class="opttitle">옵션 선택</h2>
+    <p class="optdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
+    <div class="laytabs">
+      <button data-act="layout" data-layout="list" class="${S.layout==='list'?'on':''}">리스트</button>
+      <button data-act="layout" data-layout="gallery" class="${S.layout==='gallery'?'on':''}">갤러리</button>
+      <button data-act="layout" data-layout="compact" class="${S.layout==='compact'?'on':''}">컴팩트</button>
+    </div>
+    ${groups().map(groupHTML).join('')}
+  </div></div>
+  <div class="estbar"><div><div class="cnt">${selList().length}개 옵션 선택됨</div>
+    <div class="amt">${won(total())}<small>원 · 총 옵션금액</small></div></div>
+    <button class="cta" data-act="quote-open">견적서 확인 →</button></div>`;
+  return h;
 }
 
-/* =================== QUOTE =================== */
-function openQuote(){
-  const list=selList(), body=document.getElementById("quoteBody");
-  body.innerHTML=`<div class="qrow"><span class="qg">세대</span><b>${S.unit.block} ${S.unit.dong}·${S.unit.ho} · ${S.type}</b></div>`+
-    (list.length? list.map(r=>`<div class="qrow"><span class="qg">${r.g} · ${r.label}</span><b>${won(r.v)} 원</b></div>`).join("")
-      : `<div style="color:#8a929b;padding:12px 0">선택된 유상옵션이 없습니다.</div>`)+
-    `<div style="font-size:11px;color:#8a929b;margin-top:12px;line-height:1.6">※ 납부: 계약금 10% / ${SETS[S.set].pay} 중도금 10% / 잔금 80%(입주지정일).<br>※ 가격은 입주자모집공고 기준 · 유상옵션 카탈로그 대조 필요(확인 필요).</div>`;
-  document.getElementById("quoteTotal").textContent=won(total())+" 원";
-  document.getElementById("quoteModal").showModal();
+/* ===================== RENDER: HEADER & MODALS ===================== */
+function headerHTML(){
+  let h=`<div class="topbar">
+    <img class="ci" src="assets/logo-thesharp-dark.png" alt="THE SHARP" onerror="logoFallback(this)" data-act="home" style="cursor:pointer">
+    <span class="divider"></span>
+    <span class="proj">더샵 송도그란테르</span><span class="projsub">옵션몰</span>
+    <span class="spacer"></span>`;
+  if(S.view==='options'&&S.unit){
+    const nm=(S.unit.name&&S.unit.name!=='타입 미리보기')?S.unit.name:'김올림';
+    h+=`<span class="unitchip"><b>${S.unit.block}구역</b><span>${S.type}</span><b>${nm}</b></span>
+      <button class="back" data-act="back">← 변경</button>`;
+  }
+  h+=`<span class="phone"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>1600.0255</span></div>`;
+  return h;
+}
+function modalsHTML(){
+  let h='';
+  if(S.quoteOpen){ const list=selList();
+    h+=`<div class="ovl" data-act="quote-bg"><div class="modal">
+      <div class="mh"><b>견적서</b><span class="x" data-act="quote-close">닫기 ✕</span></div>
+      <div class="mc"><div class="qrow"><span>세대</span><b>${S.unit.block} ${S.unit.dong}·${S.unit.ho} · ${S.type}</b></div>`+
+      (list.length?list.map(r=>`<div class="qrow"><span>${r.g} · ${r.label}</span><b>${won(r.v)} 원</b></div>`).join('')
+        :`<div style="color:#9098A2;padding:16px 0;font-size:13px">선택된 유상옵션이 없습니다.</div>`)+
+      `<div class="qnote">※ 납부: 계약금 10% / ${SETS[S.set].pay} 중도금 10% / 잔금 80%(입주지정일).<br>※ 가격은 입주자모집공고 기준 · 유상옵션 카탈로그 대조 필요(확인 필요).</div></div>
+      <div class="mf"><b>총 옵션금액</b><b>${won(total())} 원</b></div></div></div>`;
+  }
+  if(S.guideOpen){ const vid=S.guideTab==='video';
+    h+=`<div class="ovl" data-act="guide-bg"><div class="modal lg">
+      <div style="padding:28px 30px 0"><h2 style="margin:0;font-size:25px;font-weight:800;color:#1B2430;letter-spacing:-.03em">옵션몰 사용 가이드</h2>
+        <p style="margin:9px 0 0;font-size:14px;color:#727A86">아래 가이드를 확인 후 옵션 계약을 진행해주세요.</p></div>
+      <div class="gtabs"><button data-act="guide-tab" data-tab="image" class="${!vid?'on':''}">이미지 가이드</button>
+        <button data-act="guide-tab" data-tab="video" class="${vid?'on':''}">영상 가이드</button></div>
+      <div style="padding:22px 30px 6px">`+
+      (vid?`<div style="position:relative;border-radius:14px;overflow:hidden"><div class="imgslot" style="width:100%;aspect-ratio:16/9;background:#0E2233;color:rgba(255,255,255,.6)">가이드 영상 영역</div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:62px;height:62px;border-radius:50%;background:rgba(216,38,38,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.35)"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg></div></div></div>`
+        :`<div class="imgslot" style="width:100%;aspect-ratio:16/10">가이드 이미지 1</div><div class="imgslot" style="width:100%;aspect-ratio:16/10;margin-top:12px">가이드 이미지 2</div>`)+
+      `<div style="display:flex;align-items:center;gap:8px;margin-top:15px;color:#5B6675;font-size:12.5px">옵션 청약의 이해를 돕기 위한 자료입니다.</div></div>
+      <div style="padding:10px 30px 28px"><button data-act="guide-close" style="width:100%;background:#1B2430;color:#fff;border:none;padding:17px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer">닫기</button></div>
+    </div></div>`;
+  }
+  return h;
 }
 
-/* 로고: assets/logo-thesharp.svg → .png → 텍스트 순으로 폴백 */
-let _logoTry=0;
-function logoFallback(img){ _logoTry++; if(_logoTry===1){ img.src="assets/logo-thesharp.png"; }
-  else { img.outerHTML='<span class="ci-word">The Sharp</span>'; } }
+/* ===================== RENDER ===================== */
+function render(){
+  document.getElementById('header').innerHTML=headerHTML();
+  document.getElementById('app').innerHTML = S.view==='landing'?landingHTML():optionsHTML();
+  document.getElementById('modals').innerHTML=modalsHTML();
+}
+let _lt=0; function logoFallback(img){ _lt++; if(_lt===1){img.src='assets/logo-thesharp.png';} else { img.outerHTML='<span class="proj" style="font-family:Georgia,serif;font-variant:small-caps;letter-spacing:1px">The Sharp</span>'; } }
 
-/* =================== INIT =================== */
-buildTypeGrid();
-document.getElementById("lookBtn").onclick=()=>lookup(document.getElementById("codeInput").value.trim());
-document.getElementById("codeInput").addEventListener("keydown",e=>{ if(e.key==="Enter")lookup(e.target.value.trim()); });
-document.querySelectorAll(".hint code").forEach(c=>c.onclick=()=>{ document.getElementById("codeInput").value=c.dataset.code; lookup(c.dataset.code); });
-document.getElementById("backBtn").onclick=backToLanding;
-document.getElementById("quoteBtn").onclick=openQuote;
-document.getElementById("quoteClose").onclick=()=>document.getElementById("quoteModal").close();
-// 옵션 클릭 (이벤트 위임)
-document.getElementById("groupArea").addEventListener("click",e=>{
-  const w=e.target.closest("[data-wide]"); if(w){ S.fp.wide=!S.fp.wide; renderOptions(); return; }
-  const el=e.target.closest("[data-group]"); if(el){ S.sel[el.dataset.group]=el.dataset.id; renderOptions(); }
+/* ===================== EVENTS (delegated) ===================== */
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  const a=el.dataset.act;
+  if(a==='lookup'){ lookup(document.getElementById('codeInput').value); }
+  else if(a==='demo'){ const v=el.dataset.code; const i=document.getElementById('codeInput'); if(i)i.value=v; lookup(v); }
+  else if(a==='enter'){ openType(el.dataset.type,S.result.unit,S.result.code); }
+  else if(a==='select'){ S.sel[el.dataset.group]=el.dataset.id; render(); }
+  else if(a==='wide'){ S.fp.wide=!S.fp.wide; render(); }
+  else if(a==='layout'){ S.layout=el.dataset.layout; render(); }
+  else if(a==='quote-open'){ S.quoteOpen=true; render(); }
+  else if(a==='quote-bg'){ if(e.target===el){ S.quoteOpen=false; render(); } }
+  else if(a==='quote-close'){ S.quoteOpen=false; render(); }
+  else if(a==='guide-open'){ S.guideOpen=true; render(); }
+  else if(a==='guide-bg'){ if(e.target===el){ S.guideOpen=false; render(); } }
+  else if(a==='guide-close'){ S.guideOpen=false; render(); }
+  else if(a==='guide-tab'){ S.guideTab=el.dataset.tab; render(); }
+  else if((a==='back'||a==='home') && S.view==='options'){ backToLanding(); }
 });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='codeInput') lookup(e.target.value); });
+
+render();
 </script>
 </body>
 </html>
