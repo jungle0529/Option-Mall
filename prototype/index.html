@@ -338,7 +338,7 @@ function landingHTML(){
       <div class="uu">${pv?u.type+' 타입':u.block+' '+u.dong+'동 '+u.ho+'호'}</div>
       <div class="rty"><b>${pv?u.block+' 구역':u.type+' 타입'}</b><span class="badge ${vr?'vr':'thumb'}">${vr?'VR 360':'썸네일'}</span></div>
       <div class="plabel">평면도</div>
-      <div class="imgslot" style="width:100%;aspect-ratio:4/3">평면도 이미지 영역</div>
+      <img class="planimg" src="assets/plan-sample.png" alt="${u.type} 평면도" onerror="planFallback(this)" style="width:100%;aspect-ratio:4/3;object-fit:contain;border:1px solid #EBE7E1;border-radius:12px;background:#fff;display:block">
       <button class="enter" data-act="enter" data-type="${u.type}">옵션 선택 시작 →</button>
     </div>`;
   }
@@ -468,6 +468,7 @@ function render(){
   document.getElementById('modals').innerHTML=modalsHTML();
 }
 let _lt=0; function logoFallback(img){ _lt++; if(_lt===1){img.src='assets/logo-thesharp.png';} else { img.outerHTML='<span class="proj" style="font-family:Georgia,serif;font-variant:small-caps;letter-spacing:1px">The Sharp</span>'; } }
+function planFallback(img){ img.outerHTML='<div class="imgslot" style="width:100%;aspect-ratio:4/3">평면도 이미지 영역 (assets/plan-sample.png)</div>'; }
 
 /* ===================== EVENTS (delegated) ===================== */
 document.addEventListener('click',e=>{
