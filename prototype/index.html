@@ -330,8 +330,7 @@ function landingHTML(){
       <div class="lookrow">
         <input id="codeInput" autocomplete="off" placeholder="예: G5-202401 또는 G5-84A" value="${S.result&&S.result.code?S.result.code:''}">
         <button class="go" data-act="lookup">조회</button>
-      </div>
-      <div class="demohint">데모: <code data-act="demo" data-code="G5-202401">G5-202401</code><code data-act="demo" data-code="G5-301-1502">G5-301-1502</code> · 타입 미리보기 <code data-act="demo" data-code="G5-84A">G5-84A</code></div>`;
+      </div>`;
   if(S.result&&S.result.err) h+=`<div class="lookerr">해당 번호의 분양 정보를 찾을 수 없습니다. 번호를 확인해 주세요.</div>`;
   if(S.result&&S.result.unit){ const u=S.result.unit, vr=TYPES[u.type].mode==='vr', pv=S.result.preview;
     h+=`<div class="result">
