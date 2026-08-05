@@ -507,15 +507,11 @@ const HOME_ICON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" str
 const PHONE_ICON='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
 function topbarHTML(mode){
   const logo = (mode==='vr')?'assets/logo-thesharp.png':'assets/logo-thesharp-dark.png';
-  const nm=(S.unit.name&&S.unit.name!=='타입 미리보기')?S.unit.name:'김올림';
   return `<div class="tbar ${mode}">
-    <div class="tb-left"><img class="tb-logo" src="${logo}" alt="THE SHARP" onerror="logoFallback(this)"><span class="tb-proj">더샵 송도그란테르</span><span class="tb-sub">옵션몰</span></div>
+    <div class="tb-left"><img class="tb-logo" src="${logo}" alt="THE SHARP" onerror="logoFallback(this)"></div>
     <div class="tb-nav">
       <div class="vr-navgroup"><button class="vr-ng-home" data-act="gohome">${HOME_ICON}<span>홈</span></button><button class="vr-ng-type" data-act="back">타입선택</button></div>
-      <div class="vr-tabs"><button class="vr-tab ${S.vrView==='plan'?'on':''}" data-act="vrview" data-view="plan">평면도</button><button class="vr-tab ${S.vrView==='iso'?'on':''}" data-act="vrview" data-view="iso">아이소뷰</button></div>
     </div>
-    <div class="tb-right"><span class="unitchip"><b>${S.unit.block}구역</b><span>${S.type}</span><b>${nm}</b></span>
-      <span class="tb-phone">${PHONE_ICON}1600.0255</span></div>
   </div>`;
 }
 function viewOverlayHTML(){
