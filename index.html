@@ -204,7 +204,7 @@
   .vr-tab.on{background:#0B2447;color:#fff}
   .vr-toggle{position:absolute;top:50%;right:0;transform:translateY(-50%);z-index:13;min-width:34px;height:74px;border:none;background:rgba(255,255,255,.92);border-radius:12px 0 0 12px;cursor:pointer;font-size:14px;font-weight:800;color:#2B3340;box-shadow:-4px 0 14px rgba(0,0,0,.22);padding:0 8px;transition:right .22s}
   .vr-toggle.open{right:420px}
-  .vr-panel{position:absolute;top:0;right:-440px;width:420px;max-width:92vw;height:100%;background:var(--bg);z-index:12;display:flex;flex-direction:column;transition:right .22s;box-shadow:-12px 0 34px rgba(0,0,0,.28)}
+  .vr-panel{position:absolute;top:62px;right:-440px;width:420px;max-width:92vw;height:calc(100% - 62px);background:var(--bg);z-index:12;display:flex;flex-direction:column;transition:right .22s;box-shadow:-12px 0 34px rgba(0,0,0,.28)}
   .vr-panel.open{right:0}
   .vr-phead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px;background:#1B2430;color:#fff}
   .vr-phead b{font-size:16px;letter-spacing:-.01em}
@@ -215,7 +215,33 @@
   .vr-pfoot .amt{font-size:20px;font-weight:800;color:#1B2430}
   .vr-pfoot .amt small{font-size:11px;color:var(--sub);font-weight:500;margin-left:4px}
   .vr-pfoot .cta{background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer;white-space:nowrap}
-  .vr-viewbox{position:absolute;top:150px;left:30px;z-index:12;width:min(40vw,470px);background:#fff;border-radius:14px;padding:12px;box-shadow:0 18px 46px rgba(0,0,0,.4)}
+  /* 공통 상단바 (VR·리스트) */
+  .tbar{display:flex;align-items:center;gap:18px;padding:11px 28px}
+  .tbar.thumb{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ECE9E3}
+  .tbar.vr{position:absolute;left:0;right:0;top:0;z-index:12;background:linear-gradient(180deg,rgba(8,22,40,.62),rgba(8,22,40,0));padding-bottom:26px}
+  .tb-left{display:flex;align-items:center;gap:12px;min-width:0}
+  .tb-logo{height:26px;width:auto;display:block}
+  .tbar.vr .tb-logo{filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+  .tb-proj{font-weight:800;font-size:15px;color:#1E2733;letter-spacing:-.02em;white-space:nowrap}
+  .tb-sub{font-size:12px;color:#9098A2;white-space:nowrap}
+  .tbar.vr .tb-proj{color:#fff}
+  .tbar.vr .tb-sub{color:rgba(255,255,255,.78)}
+  .tb-nav{flex:1;display:flex;align-items:center;justify-content:center;gap:14px}
+  .tb-right{display:flex;align-items:center;gap:14px}
+  .tb-phone{display:inline-flex;align-items:center;gap:7px;font-size:18px;font-weight:800;color:#1B2430;white-space:nowrap}
+  .tbar.vr .tb-phone{color:#fff}
+  .tbar.vr .unitchip{background:rgba(255,255,255,.16);color:#fff}
+  .tbar.vr .unitchip b{color:#fff}
+  /* 리스트(밝은 헤더)용 pill/탭 톤 */
+  .tbar.thumb .vr-navgroup{background:#F1EFEA;box-shadow:none}
+  .tbar.thumb .vr-tab{background:#F1EFEA;box-shadow:none}
+  /* 상단바 내 pill·탭 크기 축소(헤더 맞춤) */
+  .tbar .vr-navgroup{padding:5px}
+  .tbar .vr-ng-home{width:48px;font-size:10px}
+  .tbar .vr-ng-type{font-size:14px;padding:0 22px}
+  .tbar .vr-tab{padding:8px 15px;font-size:12.5px}
+
+  .vr-viewbox{position:fixed;top:96px;left:30px;z-index:30;width:min(40vw,470px);background:#fff;border-radius:14px;padding:12px;box-shadow:0 18px 46px rgba(0,0,0,.4)}
   .vr-viewclose{position:absolute;top:8px;right:8px;border:none;background:rgba(0,0,0,.06);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:13px}
   .vr-disc{position:absolute;bottom:14px;left:30px;z-index:11;max-width:38%;font-size:11px;color:rgba(255,255,255,.82);line-height:1.55;text-shadow:0 1px 4px rgba(0,0,0,.6)}
   .vr-bottombar{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:11;display:flex;align-items:center;gap:6px;background:rgba(20,24,28,.92);border-radius:16px;padding:9px 14px;box-shadow:0 10px 28px rgba(0,0,0,.42)}
@@ -476,35 +502,48 @@ function groupHTML(g){
     h+=`<div style="margin-top:14px"><img src="assets/options/${gk}/${iid}.jpg" alt="${g.name} 옵션 이미지" onerror="optFallback(this)" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;display:block;background:#F1EFEA;border:1px solid #EBE7E1"></div>`; }
   return h+`</div>`;
 }
+/* 공통 상단바 (VR·리스트 동일 UI) */
+const HOME_ICON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/></svg>';
+const PHONE_ICON='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+function topbarHTML(mode){
+  const logo = (mode==='vr')?'assets/logo-thesharp.png':'assets/logo-thesharp-dark.png';
+  const nm=(S.unit.name&&S.unit.name!=='타입 미리보기')?S.unit.name:'김올림';
+  return `<div class="tbar ${mode}">
+    <div class="tb-left"><img class="tb-logo" src="${logo}" alt="THE SHARP" onerror="logoFallback(this)"><span class="tb-proj">더샵 송도그란테르</span><span class="tb-sub">옵션몰</span></div>
+    <div class="tb-nav">
+      <div class="vr-navgroup"><button class="vr-ng-home" data-act="gohome">${HOME_ICON}<span>홈</span></button><button class="vr-ng-type" data-act="back">타입선택</button></div>
+      <div class="vr-tabs"><button class="vr-tab ${S.vrView==='plan'?'on':''}" data-act="vrview" data-view="plan">평면도</button><button class="vr-tab ${S.vrView==='iso'?'on':''}" data-act="vrview" data-view="iso">아이소뷰</button></div>
+    </div>
+    <div class="tb-right"><span class="unitchip"><b>${S.unit.block}구역</b><span>${S.type}</span><b>${nm}</b></span>
+      <span class="tb-phone">${PHONE_ICON}1600.0255</span></div>
+  </div>`;
+}
+function viewOverlayHTML(){
+  if(!S.vrView) return '';
+  return `<div class="vr-viewbox"><button class="vr-viewclose" data-act="vrview" data-view="${S.vrView}">✕</button>`+
+    (S.vrView==='plan'
+      ? `<img src="assets/plans/${S.type}.png" data-fb="0" onerror="planChain(this)" style="width:100%;border-radius:10px;display:block">`
+      : `<div class="imgslot" style="width:100%;aspect-ratio:4/3">아이소뷰 이미지 영역 (assets/iso/${S.type}.png)</div>`)+`</div>`;
+}
 function optionsHTML(){
   if(S.mode==='vr') return vrScreenHTML();
-  // 썸네일 타입: 단일 컬럼 옵션 나열
-  let h=`<div class="optlayout thumb"><div class="optcol">
+  // 리스트(썸네일) 타입: 공통 상단바 + 단일 컬럼 옵션 나열
+  return `${topbarHTML('thumb')}
+  <div class="optlayout thumb"><div class="optcol">
     <h2 class="opttitle">옵션 선택</h2>
     <p class="optdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
     ${groups().map(groupHTML).join('')}
   </div></div>
+  ${viewOverlayHTML()}
   <div class="estbar"><div><div class="cnt">${selList().length}개 옵션 선택됨</div>
     <div class="amt">${won(total())}<small>원 · 총 옵션금액</small></div></div>
     <button class="cta" data-act="quote-open">견적서 확인 →</button></div>`;
-  return h;
 }
-/* VR 타입: 풀스크린 VR + 오버레이(홈/타입선택 · 평면도/아이소뷰 · 견적서 · 접이식 옵션 패널) */
+/* VR 타입: 풀스크린 VR + 공통 상단바(오버레이) + 접이식 옵션 패널 + 하단 메뉴바 */
 function vrScreenHTML(){
-  const homeIcon='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B3340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/></svg>';
   return `<div class="vrscreen">
     <iframe class="vrfull" src="${VR_SRC}" allow="fullscreen; xr-spatial-tracking; accelerometer; gyroscope; magnetometer" allowfullscreen="true"></iframe>
-    <img class="vr-logo" src="assets/logo-thesharp.png" alt="THE SHARP" onerror="logoFallback(this)">
-    <div class="vr-topnav">
-      <div class="vr-navgroup">
-        <button class="vr-ng-home" data-act="gohome">${homeIcon}<span>홈</span></button>
-        <button class="vr-ng-type" data-act="back">타입선택</button>
-      </div>
-      <div class="vr-tabs">
-        <button class="vr-tab ${S.vrView==='plan'?'on':''}" data-act="vrview" data-view="plan">평면도</button>
-        <button class="vr-tab ${S.vrView==='iso'?'on':''}" data-act="vrview" data-view="iso">아이소뷰</button>
-      </div>
-    </div>
+    ${topbarHTML('vr')}
     <button class="vr-toggle ${S.panelOpen?'open':''}" data-act="panel">${S.panelOpen?'›':'‹ 옵션'}</button>
     <aside class="vr-panel ${S.panelOpen?'open':''}">
       <div class="vr-phead"><b>유상옵션 견적서</b><b class="vr-ptotal">${won(total())} 원</b></div>
@@ -514,11 +553,7 @@ function vrScreenHTML(){
         <button class="cta" data-act="quote-open">견적서 확인 →</button>
       </div>
     </aside>
-    ${S.vrView?`<div class="vr-viewbox"><button class="vr-viewclose" data-act="vrview" data-view="${S.vrView}">✕</button>`+
-      (S.vrView==='plan'
-        ? `<img src="assets/plans/${S.type}.png" data-fb="0" onerror="planChain(this)" style="width:100%;border-radius:10px;display:block">`
-        : `<div class="imgslot" style="width:100%;aspect-ratio:4/3">아이소뷰 이미지 영역 (assets/iso/${S.type}.png)</div>`)+
-      `</div>`:''}
+    ${viewOverlayHTML()}
     <div class="vr-bottombar">
       <span class="vr-bb-arrow">«</span>
       <div class="vr-bb-item"><span class="ic">🗺️</span>미니맵</div>
@@ -576,7 +611,7 @@ function modalsHTML(){
 
 /* ===================== RENDER ===================== */
 function render(){
-  document.getElementById('header').innerHTML = (S.view==='options' && S.mode!=='vr')?headerHTML():'';  // 키오스크 랜딩/타입/VR은 풀스크린(자체 오버레이)
+  document.getElementById('header').innerHTML = '';  // 모든 화면이 자체 상단바 포함
   document.getElementById('app').innerHTML = S.view==='landing'?landingHTML() : S.view==='types'?typesHTML() : optionsHTML();
   document.getElementById('modals').innerHTML=modalsHTML();
 }
