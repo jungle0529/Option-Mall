@@ -202,7 +202,6 @@
   .vr-tabs{display:flex;gap:8px}
   .vr-tab{background:rgba(255,255,255,.85);border:none;border-radius:9px;padding:9px 18px;font-weight:700;font-size:13px;color:#4A5462;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18)}
   .vr-tab.on{background:#0B2447;color:#fff}
-  .vr-quote{position:absolute;top:26px;right:30px;z-index:12;background:rgba(255,255,255,.92);border:none;border-radius:12px;padding:13px 20px;font-weight:800;font-size:14px;color:#2B3340;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.28)}
   .vr-toggle{position:absolute;top:50%;right:0;transform:translateY(-50%);z-index:13;min-width:34px;height:74px;border:none;background:rgba(255,255,255,.92);border-radius:12px 0 0 12px;cursor:pointer;font-size:14px;font-weight:800;color:#2B3340;box-shadow:-4px 0 14px rgba(0,0,0,.22);padding:0 8px;transition:right .22s}
   .vr-toggle.open{right:420px}
   .vr-panel{position:absolute;top:0;right:-440px;width:420px;max-width:92vw;height:100%;background:var(--bg);z-index:12;display:flex;flex-direction:column;transition:right .22s;box-shadow:-12px 0 34px rgba(0,0,0,.28)}
@@ -226,7 +225,7 @@
   .vr-bb-arrow{color:rgba(255,255,255,.65);font-size:16px;padding:0 6px;cursor:pointer;background:none;border:none}
   @media(max-width:760px){
     .vr-panel{width:100%;right:-100%} .vr-toggle.open{right:calc(100% - 34px)}
-    .vr-disc{max-width:78%} .vr-quote{padding:10px 14px}
+    .vr-disc{max-width:78%}
   }
 
   @media(max-width:760px){
@@ -506,7 +505,6 @@ function vrScreenHTML(){
         <button class="vr-tab ${S.vrView==='iso'?'on':''}" data-act="vrview" data-view="iso">아이소뷰</button>
       </div>
     </div>
-    <button class="vr-quote" data-act="quote-open">견적서 ›</button>
     <button class="vr-toggle ${S.panelOpen?'open':''}" data-act="panel">${S.panelOpen?'›':'‹ 옵션'}</button>
     <aside class="vr-panel ${S.panelOpen?'open':''}">
       <div class="vr-phead"><b>유상옵션 견적서</b><b class="vr-ptotal">${won(total())} 원</b></div>
