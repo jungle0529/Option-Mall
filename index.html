@@ -189,6 +189,40 @@
   .gtabs button{flex:1;justify-content:center;display:flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;font-size:14px;font-weight:700;color:#9098A2;padding:13px 4px;margin-bottom:-1px;border-bottom:2px solid transparent}
   .gtabs button.on{font-weight:800;color:var(--accent);border-bottom-color:var(--accent)}
 
+  /* VR 풀스크린 화면 (84B·118K·124B) */
+  .vrscreen{position:fixed;inset:0;background:#0E2233;overflow:hidden;z-index:10}
+  .vrfull{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .vr-logo{position:absolute;top:22px;left:30px;height:30px;z-index:12;filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+  .vr-topnav{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:12;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .vr-navrow{display:flex;align-items:center;gap:10px}
+  .vr-home{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700;color:#2B3340;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .vr-pill{background:rgba(255,255,255,.92);border-radius:32px;padding:6px;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .vr-typebtn{border:none;background:#0B2447;color:#fff;font-weight:800;font-size:16px;padding:13px 30px;border-radius:26px;cursor:pointer;letter-spacing:-.01em}
+  .vr-tabs{display:flex;gap:8px}
+  .vr-tab{background:rgba(255,255,255,.85);border:none;border-radius:9px;padding:9px 18px;font-weight:700;font-size:13px;color:#4A5462;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .vr-tab.on{background:#0B2447;color:#fff}
+  .vr-quote{position:absolute;top:26px;right:30px;z-index:12;background:rgba(255,255,255,.92);border:none;border-radius:12px;padding:13px 20px;font-weight:800;font-size:14px;color:#2B3340;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .vr-toggle{position:absolute;top:50%;right:0;transform:translateY(-50%);z-index:13;min-width:34px;height:74px;border:none;background:rgba(255,255,255,.92);border-radius:12px 0 0 12px;cursor:pointer;font-size:14px;font-weight:800;color:#2B3340;box-shadow:-4px 0 14px rgba(0,0,0,.22);padding:0 8px;transition:right .22s}
+  .vr-toggle.open{right:420px}
+  .vr-panel{position:absolute;top:0;right:-440px;width:420px;max-width:92vw;height:100%;background:var(--bg);z-index:12;display:flex;flex-direction:column;transition:right .22s;box-shadow:-12px 0 34px rgba(0,0,0,.28)}
+  .vr-panel.open{right:0}
+  .vr-phead{padding:22px 22px 14px;border-bottom:1px solid var(--line)}
+  .vr-phead b{font-size:18px;letter-spacing:-.02em;display:block;color:#1B2430}
+  .vr-phead span{font-size:12px;color:var(--sub)}
+  .vr-pbody{flex:1;overflow-y:auto;padding:18px 20px}
+  .vr-pfoot{border-top:1px solid var(--line);background:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .vr-pfoot .cnt{font-size:11px;color:var(--sub)}
+  .vr-pfoot .amt{font-size:20px;font-weight:800;color:#1B2430}
+  .vr-pfoot .amt small{font-size:11px;color:var(--sub);font-weight:500;margin-left:4px}
+  .vr-pfoot .cta{background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .vr-viewbox{position:absolute;top:150px;left:30px;z-index:12;width:min(40vw,470px);background:#fff;border-radius:14px;padding:12px;box-shadow:0 18px 46px rgba(0,0,0,.4)}
+  .vr-viewclose{position:absolute;top:8px;right:8px;border:none;background:rgba(0,0,0,.06);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:13px}
+  .vr-disc{position:absolute;bottom:14px;left:30px;z-index:11;max-width:50%;font-size:11px;color:rgba(255,255,255,.82);line-height:1.55;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+  @media(max-width:760px){
+    .vr-panel{width:100%;right:-100%} .vr-toggle.open{right:calc(100% - 34px)}
+    .vr-disc{max-width:78%} .vr-quote{padding:10px 14px}
+  }
+
   @media(max-width:760px){
     .optlayout{display:block} .vrstage{position:static;height:300px;width:100%}
     .optlayout.vr .optcol,.optlayout.thumb .optcol{max-width:none}
@@ -324,7 +358,8 @@ const SETS = {
 
 /* ===================== STATE & HELPERS ===================== */
 let S={ view:'landing', blockGroup:null, result:null, code:null, unit:null, type:null, set:null, fam:null, mode:null,
-        sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video' };
+        sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video',
+        panelOpen:false, vrView:null };
 /* 설치형 키오스크: 블록 그룹 → 타입 목록 */
 const GROUP_TYPES={
   a:[ {label:'G5-1블록', types:["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C"]},
@@ -351,7 +386,7 @@ function lookup(code){
     S.result={code:'G5-'+t,unit:{block:BLOCK_OF[TYPES[t].set].split(' ')[0],dong:'–',ho:'–',type:t,name:'타입 미리보기'},preview:true}; render(); return; } }
   S.result={err:true}; render();
 }
-function openType(type,unit,code){ const T=TYPES[type]; Object.assign(S,{view:'options',type,unit,code,set:T.set,fam:T.fam,mode:T.mode,sel:{},fp:{wide:false},result:null}); window.scrollTo(0,0); render(); }
+function openType(type,unit,code){ const T=TYPES[type]; Object.assign(S,{view:'options',type,unit,code,set:T.set,fam:T.fam,mode:T.mode,sel:{},fp:{wide:false},result:null,panelOpen:false,vrView:null}); window.scrollTo(0,0); render(); }
 function backToLanding(){ S.view='landing'; render(); }
 
 /* ===================== RENDER: LANDING ===================== */
@@ -437,11 +472,9 @@ function groupHTML(g){
   return h+`</div>`;
 }
 function optionsHTML(){
-  const vr=S.mode==='vr';
-  let h=`<div class="optlayout ${vr?'vr':'thumb'}">`;
-  if(vr) h+=`<div class="vrstage"><iframe src="${VR_SRC}" allow="fullscreen; xr-spatial-tracking; accelerometer; gyroscope; magnetometer" allowfullscreen="true"></iframe>
-    <div class="vrtag"><span class="dot"></span>VR 360 · ${S.type}</div></div>`;
-  h+=`<div class="optcol">
+  if(S.mode==='vr') return vrScreenHTML();
+  // 썸네일 타입: 단일 컬럼 옵션 나열
+  let h=`<div class="optlayout thumb"><div class="optcol">
     <h2 class="opttitle">옵션 선택</h2>
     <p class="optdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
     ${groups().map(groupHTML).join('')}
@@ -450,6 +483,40 @@ function optionsHTML(){
     <div class="amt">${won(total())}<small>원 · 총 옵션금액</small></div></div>
     <button class="cta" data-act="quote-open">견적서 확인 →</button></div>`;
   return h;
+}
+/* VR 타입: 풀스크린 VR + 오버레이(홈/타입선택 · 평면도/아이소뷰 · 견적서 · 접이식 옵션 패널) */
+function vrScreenHTML(){
+  const homeIcon='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B3340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/></svg>';
+  return `<div class="vrscreen">
+    <iframe class="vrfull" src="${VR_SRC}" allow="fullscreen; xr-spatial-tracking; accelerometer; gyroscope; magnetometer" allowfullscreen="true"></iframe>
+    <img class="vr-logo" src="assets/logo-thesharp.png" alt="THE SHARP" onerror="logoFallback(this)">
+    <div class="vr-topnav">
+      <div class="vr-navrow">
+        <button class="vr-home" data-act="gohome">${homeIcon}<span>홈</span></button>
+        <div class="vr-pill"><button class="vr-typebtn" data-act="back">타입선택</button></div>
+      </div>
+      <div class="vr-tabs">
+        <button class="vr-tab ${S.vrView==='plan'?'on':''}" data-act="vrview" data-view="plan">평면도</button>
+        <button class="vr-tab ${S.vrView==='iso'?'on':''}" data-act="vrview" data-view="iso">아이소뷰</button>
+      </div>
+    </div>
+    <button class="vr-quote" data-act="quote-open">견적서 ›</button>
+    <button class="vr-toggle ${S.panelOpen?'open':''}" data-act="panel">${S.panelOpen?'›':'‹ 옵션'}</button>
+    <aside class="vr-panel ${S.panelOpen?'open':''}">
+      <div class="vr-phead"><b>옵션 선택</b><span>${S.unit.block}구역 · ${S.type}</span></div>
+      <div class="vr-pbody">${groups().map(groupHTML).join('')}</div>
+      <div class="vr-pfoot">
+        <div><div class="cnt">${selList().length}개 선택</div><div class="amt">${won(total())}<small>원</small></div></div>
+        <button class="cta" data-act="quote-open">견적서 확인 →</button>
+      </div>
+    </aside>
+    ${S.vrView?`<div class="vr-viewbox"><button class="vr-viewclose" data-act="vrview" data-view="${S.vrView}">✕</button>`+
+      (S.vrView==='plan'
+        ? `<img src="assets/plans/${S.type}.png" data-fb="0" onerror="planChain(this)" style="width:100%;border-radius:10px;display:block">`
+        : `<div class="imgslot" style="width:100%;aspect-ratio:4/3">아이소뷰 이미지 영역 (assets/iso/${S.type}.png)</div>`)+
+      `</div>`:''}
+    <div class="vr-disc">※ 본 VR은 향후 시공 후 마감재 색상·패턴·형태 등 달라질 수 있습니다.<br>※ 옵션 등 자세한 사항은 계약 전 반드시 입주자 모집공고, 견본주택 및 분양 사무소에서 확인하시기 바랍니다.</div>
+  </div>`;
 }
 
 /* ===================== RENDER: HEADER & MODALS ===================== */
@@ -497,7 +564,7 @@ function modalsHTML(){
 
 /* ===================== RENDER ===================== */
 function render(){
-  document.getElementById('header').innerHTML = S.view==='options'?headerHTML():'';  // 키오스크 랜딩/타입은 풀스크린
+  document.getElementById('header').innerHTML = (S.view==='options' && S.mode!=='vr')?headerHTML():'';  // 키오스크 랜딩/타입/VR은 풀스크린(자체 오버레이)
   document.getElementById('app').innerHTML = S.view==='landing'?landingHTML() : S.view==='types'?typesHTML() : optionsHTML();
   document.getElementById('modals').innerHTML=modalsHTML();
 }
@@ -519,6 +586,9 @@ document.addEventListener('click',e=>{
   if(a==='blockgroup'){ S.blockGroup=el.dataset.group; S.view='types'; window.scrollTo(0,0); render(); }
   else if(a==='toblocks'){ S.view='landing'; render(); }
   else if(a==='kioskopen'){ kioskOpen(el.dataset.type); }
+  else if(a==='gohome'){ S.view='landing'; render(); }
+  else if(a==='panel'){ S.panelOpen=!S.panelOpen; render(); }
+  else if(a==='vrview'){ S.vrView = (S.vrView===el.dataset.view)?null:el.dataset.view; render(); }
   else if(a==='select'){ S.sel[el.dataset.group]=el.dataset.id; render(); }
   else if(a==='wide'){ S.fp.wide=!S.fp.wide; render(); }
   else if(a==='layout'){ S.layout=el.dataset.layout; render(); }
