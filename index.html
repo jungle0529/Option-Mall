@@ -325,8 +325,9 @@ let S={ view:'landing', blockGroup:null, result:null, code:null, unit:null, type
         sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video' };
 /* 설치형 키오스크: 블록 그룹 → 타입 목록 */
 const GROUP_TYPES={
-  a:[ {label:'G5-1블록', types:BLOCKS['G5-1']}, {label:'G5-11블록', types:BLOCKS['G5-11']} ],
-  b:[ {label:'G5-3·4·5·6 (타워)', types:BLOCKS['G5-3·4·5·6 (타워)']} ]
+  a:[ {label:'G5-1블록', types:["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C","198PA","198PB"]},
+      {label:'G5-11블록', types:["84H","84I","84J","100A","100B","100C","124H","124I","128H","198PC"]} ],
+  b:[ {label:'G5-3·4·5·6 (타워)', types:["84K","118K","129K","188K","198PK"]} ]
 };
 const won=n=>(n||0).toLocaleString('ko-KR');
 const groups=()=>SETS[S.set].groups;
