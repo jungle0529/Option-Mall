@@ -97,9 +97,7 @@
   .tsel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
   .tcell2{position:relative;height:78px;background:rgba(11,36,71,.82);border:1px solid rgba(255,255,255,.16);border-radius:10px;color:#fff;cursor:pointer;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;transition:.14s}
   .tcell2:hover{background:rgba(16,50,96,.96);transform:translateY(-2px)}
-  .tc-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%}
-  .tc-dot.vr{background:#7FE0A8}
-  .tc-dot.thumb{background:rgba(255,255,255,.45)}
+  .tc-vr{position:absolute;top:7px;right:7px;font-size:10px;font-weight:800;letter-spacing:.05em;color:#0E2233;background:#7FE0A8;padding:2px 6px;border-radius:5px;line-height:1}
 
   /* image slot placeholder */
   .imgslot{display:flex;align-items:center;justify-content:center;text-align:center;background:#F1EFEA;border:1.5px dashed #D7D2C8;color:#9aa0a8;font-size:12px;border-radius:12px}
@@ -329,9 +327,9 @@ let S={ view:'landing', blockGroup:null, result:null, code:null, unit:null, type
         sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video' };
 /* 설치형 키오스크: 블록 그룹 → 타입 목록 */
 const GROUP_TYPES={
-  a:[ {label:'G5-1블록', types:["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C","198PA","198PB"]},
-      {label:'G5-11블록', types:["84H","84I","84J","100A","100B","100C","124H","124I","128H","198PC"]} ],
-  b:[ {label:'G5-3·4·5·6 (타워)', types:["84K","118K","129K","188K","198PK"]} ]
+  a:[ {label:'G5-1블록', types:["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C"]},
+      {label:'G5-11블록', types:["84H","84I","84J","100A","100B","100C","124H","124I","128H"]} ],
+  b:[ {label:'G5-3·4·5·6 (타워)', types:["84K","118K","129K","188K"]} ]
 };
 const won=n=>(n||0).toLocaleString('ko-KR');
 const groups=()=>SETS[S.set].groups;
@@ -386,7 +384,7 @@ function typesHTML(){
         <div class="tsel-title">${gl} · 타입 선택</div></div>`;
   gs.forEach(sub=>{ h+=`<div class="tsel-block"><div class="tsel-bl">${sub.label}</div><div class="tsel-grid">`;
     sub.types.forEach(t=>{ const vr=TYPES[t].mode==='vr';
-      h+=`<button class="tcell2" data-act="kioskopen" data-type="${t}">${t}<span class="tc-dot ${vr?'vr':'thumb'}"></span></button>`; });
+      h+=`<button class="tcell2" data-act="kioskopen" data-type="${t}">${t}${vr?'<span class="tc-vr">VR</span>':''}</button>`; });
     h+=`</div></div>`; });
   h+=`</div></div>`; return h;
 }
