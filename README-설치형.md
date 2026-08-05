@@ -40,6 +40,10 @@
 예) 바닥 원목마루 이미지 → `assets/options/floor/wd.jpg`
 - 권장: 16:10 비율, 가로 1200–1600px, JPG
 
+### 0) 키오스크 랜딩 배경 — `assets/landing-bg.jpg`
+- 첫 화면(블록 선택)의 전체 배경(항공 조감도). 권장 가로 1920px 이상.
+- 없으면 짙은 네이비 단색 배경으로 대체.
+
 ### 3) 가이드 — `assets/guide/`
 - 영상 썸네일: `assets/guide/video.jpg` (16:9)
 - 이미지: `assets/guide/img-1.jpg`, `assets/guide/img-2.jpg` (16:10)

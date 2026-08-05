@@ -67,6 +67,36 @@
   .guidecard .gd{font-size:12.5px;color:var(--sub);margin-top:3px}
   .guidecard .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-weight:700;font-size:13px;padding:11px 17px;border-radius:10px;white-space:nowrap}
 
+  /* 키오스크 랜딩 (설치형) */
+  .kiosk{position:relative;min-height:100vh;background:#12324f url('assets/landing-bg.jpg') center/cover no-repeat;color:#fff;overflow:hidden}
+  .kiosk::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,22,40,.38),rgba(8,22,40,.12) 32%,rgba(8,22,40,.42));pointer-events:none;z-index:1}
+  .kiosk.types::before{background:rgba(8,20,36,.66)}
+  .kx-logo{position:absolute;top:30px;left:42px;height:46px;width:auto;z-index:3}
+  .kx-head{position:absolute;top:34px;left:0;right:0;text-align:center;z-index:3;padding:0 20px}
+  .kx-eyebrow{font-size:15px;color:rgba(255,255,255,.92);margin-bottom:10px;font-weight:500;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+  .kx-title{font-size:34px;font-weight:800;letter-spacing:-.01em;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+  .kx-btns{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:20px}
+  .kx-blk{width:min(30vw,300px);height:min(30vw,300px);min-width:200px;min-height:200px;background:rgba(11,36,71,.82);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#fff;cursor:pointer;font-size:clamp(26px,3vw,36px);font-weight:800;letter-spacing:-.01em;transition:.15s;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+  .kx-blk:hover{background:rgba(16,50,96,.94);transform:translateY(-4px)}
+  .kx-foot{position:absolute;left:0;right:0;bottom:20px;text-align:center;z-index:3}
+  .kx-guide{display:inline-flex;font-size:26px;margin-bottom:6px;cursor:pointer;opacity:.92}
+  .kx-hint{font-size:15px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.55);margin-bottom:8px;font-weight:500}
+  .kx-disc{font-size:11px;color:rgba(255,255,255,.72);max-width:1120px;margin:0 auto;padding:0 20px;line-height:1.5}
+  /* 타입 선택 */
+  .tsel{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;max-width:1000px;margin:0 auto;padding:100px 24px 40px}
+  .tsel-head{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+  .tsel-back{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;padding:10px 16px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600}
+  .tsel-back:hover{background:rgba(255,255,255,.2)}
+  .tsel-title{font-size:24px;font-weight:800;letter-spacing:-.01em;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+  .tsel-block{margin-bottom:26px}
+  .tsel-bl{font-size:14px;font-weight:700;color:rgba(255,255,255,.78);margin-bottom:12px}
+  .tsel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+  .tcell2{position:relative;height:78px;background:rgba(11,36,71,.82);border:1px solid rgba(255,255,255,.16);border-radius:10px;color:#fff;cursor:pointer;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;transition:.14s}
+  .tcell2:hover{background:rgba(16,50,96,.96);transform:translateY(-2px)}
+  .tc-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%}
+  .tc-dot.vr{background:#7FE0A8}
+  .tc-dot.thumb{background:rgba(255,255,255,.45)}
+
   /* image slot placeholder */
   .imgslot{display:flex;align-items:center;justify-content:center;text-align:center;background:#F1EFEA;border:1.5px dashed #D7D2C8;color:#9aa0a8;font-size:12px;border-radius:12px}
 
@@ -291,8 +321,13 @@ const SETS = {
 };
 
 /* ===================== STATE & HELPERS ===================== */
-let S={ view:'landing', result:null, code:null, unit:null, type:null, set:null, fam:null, mode:null,
+let S={ view:'landing', blockGroup:null, result:null, code:null, unit:null, type:null, set:null, fam:null, mode:null,
         sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video' };
+/* 설치형 키오스크: 블록 그룹 → 타입 목록 */
+const GROUP_TYPES={
+  a:[ {label:'G5-1블록', types:BLOCKS['G5-1']}, {label:'G5-11블록', types:BLOCKS['G5-11']} ],
+  b:[ {label:'G5-3·4·5·6 (타워)', types:BLOCKS['G5-3·4·5·6 (타워)']} ]
+};
 const won=n=>(n||0).toLocaleString('ko-KR');
 const groups=()=>SETS[S.set].groups;
 function priceOf(it){ if(it.brand) return typeof it.price==='number'?it.price:0;
@@ -317,38 +352,41 @@ function openType(type,unit,code){ const T=TYPES[type]; Object.assign(S,{view:'o
 function backToLanding(){ S.view='landing'; render(); }
 
 /* ===================== RENDER: LANDING ===================== */
+/* 키오스크 랜딩: 항공 조감도 + 블록 그룹 2버튼 */
 function landingHTML(){
-  let h=`<div class="heroband"><div class="sheen"></div><div class="heroinner">
-    <div class="eyebrow">THE ENDLESS SYMBOL OF SONGDO</div>
-    <h1>나의 집, 옵션을 직접 고르다</h1>
-    <p>분양 고유번호를 입력하시면 배정된 동·호수의<br>옵션 선택 화면이 열립니다.</p></div></div>
-    <div class="lookwrap"><div class="lookcard">
-      <label for="codeInput">분양 고유번호</label>
-      <div class="lookrow">
-        <input id="codeInput" autocomplete="off" placeholder="예: G5-202401 또는 G5-84A" value="${S.result&&S.result.code?S.result.code:''}">
-        <button class="go" data-act="lookup">조회</button>
-      </div>`;
-  if(S.result&&S.result.err) h+=`<div class="lookerr">해당 번호의 분양 정보를 찾을 수 없습니다. 번호를 확인해 주세요.</div>`;
-  if(S.result&&S.result.unit){ const u=S.result.unit, vr=TYPES[u.type].mode==='vr', pv=S.result.preview;
-    h+=`<div class="result">
-      <div class="who">${pv?'타입 미리보기 · '+S.result.code:u.name+' 님 · '+S.result.code}</div>
-      <div class="uu">${pv?u.type+' 타입':u.block+' '+u.dong+'동 '+u.ho+'호'}</div>
-      <div class="rty"><b>${pv?u.block+' 구역':u.type+' 타입'}</b><span class="badge ${vr?'vr':'thumb'}">${vr?'VR 360':'썸네일'}</span></div>
-      <div class="plabel">평면도</div>
-      <img class="planimg" src="assets/plans/${u.type}.png" data-fb="0" alt="${u.type} 평면도" onerror="planChain(this)" style="width:100%;aspect-ratio:4/3;object-fit:contain;border:1px solid #EBE7E1;border-radius:12px;background:#fff;display:block">
-      <button class="enter" data-act="enter" data-type="${u.type}">옵션 선택 시작 →</button>
-    </div>`;
-  }
-  h+=`</div></div>
-    <div class="guidewrap"><div class="guidecard" data-act="guide-open">
-      <div style="display:flex;align-items:center;gap:14px;min-width:0">
-        <div class="gi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B3340" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
-        <div><div class="gt">옵션 계약 가이드</div><div class="gd">옵션 선택·계약 전, 이미지·영상 가이드를 확인하세요.</div></div>
-      </div>
-      <span class="gbtn">가이드 보기 →</span>
-    </div></div>`;
-  return h;
+  return `<div class="kiosk">
+    <img class="kx-logo" src="assets/logo-thesharp.png" alt="THE SHARP" onerror="logoFallback(this)">
+    <div class="kx-head">
+      <div class="kx-eyebrow">송도국제도시 핵심 입지, 더샵의 새로운 기준</div>
+      <div class="kx-title">더샵 송도그란테르</div>
+    </div>
+    <div class="kx-btns">
+      <button class="kx-blk" data-act="blockgroup" data-group="a">1 · 11 블록</button>
+      <button class="kx-blk" data-act="blockgroup" data-group="b">3~6 블록</button>
+    </div>
+    <div class="kx-foot">
+      <div class="kx-guide" data-act="guide-open" title="가이드">🗂️</div>
+      <div class="kx-hint">[ 터치를 이용해 타입을 선택해 보세요 ]</div>
+      <div class="kx-disc">※ 상기 참고용 이미지에 표기된 일부 품목 등은 소비자의 이해를 돕기 위한 것으로 컬러, 색상, 형태는 본공사 시 현장 여건에 따라 변경될 수 있으므로 평면도 및 가구 옵션은 모집공고 및 별도 홍보물에서 확인하시기 바랍니다.</div>
+    </div>
+  </div>`;
 }
+/* 블록 그룹 선택 후 타입 목록 */
+function typesHTML(){
+  const gs=GROUP_TYPES[S.blockGroup]||[]; const gl=S.blockGroup==='a'?'1 · 11 블록':'3~6 블록';
+  let h=`<div class="kiosk types">
+    <img class="kx-logo" src="assets/logo-thesharp.png" alt="THE SHARP" onerror="logoFallback(this)">
+    <div class="tsel">
+      <div class="tsel-head"><button class="tsel-back" data-act="toblocks">← 블록 선택</button>
+        <div class="tsel-title">${gl} · 타입 선택</div></div>`;
+  gs.forEach(sub=>{ h+=`<div class="tsel-block"><div class="tsel-bl">${sub.label}</div><div class="tsel-grid">`;
+    sub.types.forEach(t=>{ const vr=TYPES[t].mode==='vr';
+      h+=`<button class="tcell2" data-act="kioskopen" data-type="${t}">${t}<span class="tc-dot ${vr?'vr':'thumb'}"></span></button>`; });
+    h+=`</div></div>`; });
+  h+=`</div></div>`; return h;
+}
+/* 키오스크 타입 진입 (고유번호 없음) */
+function kioskOpen(type){ const blk=BLOCK_OF[TYPES[type].set].split(' ')[0]; openType(type,{block:blk,dong:'–',ho:'–',name:''},null); }
 
 /* ===================== RENDER: OPTIONS ===================== */
 function itemCardHTML(g,it){
@@ -456,8 +494,8 @@ function modalsHTML(){
 
 /* ===================== RENDER ===================== */
 function render(){
-  document.getElementById('header').innerHTML=headerHTML();
-  document.getElementById('app').innerHTML = S.view==='landing'?landingHTML():optionsHTML();
+  document.getElementById('header').innerHTML = S.view==='options'?headerHTML():'';  // 키오스크 랜딩/타입은 풀스크린
+  document.getElementById('app').innerHTML = S.view==='landing'?landingHTML() : S.view==='types'?typesHTML() : optionsHTML();
   document.getElementById('modals').innerHTML=modalsHTML();
 }
 let _lt=0; function logoFallback(img){ _lt++; if(_lt===1){img.src='assets/logo-thesharp.png';} else { img.outerHTML='<span class="proj" style="font-family:Georgia,serif;font-variant:small-caps;letter-spacing:1px">The Sharp</span>'; } }
@@ -475,9 +513,9 @@ function gFallback(img,kind){ const ar=kind==='video'?'16/9':'16/10'; const dark
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-act]'); if(!el) return;
   const a=el.dataset.act;
-  if(a==='lookup'){ lookup(document.getElementById('codeInput').value); }
-  else if(a==='demo'){ const v=el.dataset.code; const i=document.getElementById('codeInput'); if(i)i.value=v; lookup(v); }
-  else if(a==='enter'){ openType(el.dataset.type,S.result.unit,S.result.code); }
+  if(a==='blockgroup'){ S.blockGroup=el.dataset.group; S.view='types'; window.scrollTo(0,0); render(); }
+  else if(a==='toblocks'){ S.view='landing'; render(); }
+  else if(a==='kioskopen'){ kioskOpen(el.dataset.type); }
   else if(a==='select'){ S.sel[el.dataset.group]=el.dataset.id; render(); }
   else if(a==='wide'){ S.fp.wide=!S.fp.wide; render(); }
   else if(a==='layout'){ S.layout=el.dataset.layout; render(); }
@@ -488,7 +526,7 @@ document.addEventListener('click',e=>{
   else if(a==='guide-bg'){ if(e.target===el){ S.guideOpen=false; render(); } }
   else if(a==='guide-close'){ S.guideOpen=false; render(); }
   else if(a==='guide-tab'){ S.guideTab=el.dataset.tab; render(); }
-  else if((a==='back'||a==='home') && S.view==='options'){ backToLanding(); }
+  else if((a==='back'||a==='home') && S.view==='options'){ S.view = S.blockGroup?'types':'landing'; render(); }
 });
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='codeInput') lookup(e.target.value); });
 
