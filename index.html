@@ -215,6 +215,21 @@
   .vr-pfoot .amt{font-size:20px;font-weight:800;color:#1B2430}
   .vr-pfoot .amt small{font-size:11px;color:var(--sub);font-weight:500;margin-left:4px}
   .vr-pfoot .cta{background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer;white-space:nowrap}
+  /* 리스트 타입: 카테고리 탭(스크롤 없는 키오스크형) */
+  .catwrap{height:calc(100vh - 57px);box-sizing:border-box;padding:20px 34px 104px;display:flex;flex-direction:column;max-width:1500px;margin:0 auto}
+  .cathead{margin-bottom:14px}
+  .cathead .opttitle{margin:0 0 3px}
+  .cathead .optdesc{margin:0}
+  .cattabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .cattab{position:relative;border:1.5px solid var(--line);background:#fff;border-radius:24px;padding:10px 18px;font-size:14px;font-weight:700;color:#4A5462;cursor:pointer;transition:.12s}
+  .cattab:hover{border-color:#b9c6d2}
+  .cattab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .cattab .cdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-left:7px;vertical-align:middle}
+  .catbody{flex:1;display:flex;gap:24px;min-height:0}
+  .catcards{flex:1.05;overflow-y:auto;min-width:0}
+  .catcards .optgroup{margin-bottom:0}
+  .catimg{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--cardline);border-radius:16px;padding:16px;min-height:0}
+
   /* 공통 상단바 (VR·리스트) */
   .tbar{display:flex;align-items:center;gap:18px;padding:11px 28px}
   .tbar.thumb{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ECE9E3}
@@ -390,7 +405,7 @@ const SETS = {
 /* ===================== STATE & HELPERS ===================== */
 let S={ view:'landing', blockGroup:null, result:null, code:null, unit:null, type:null, set:null, fam:null, mode:null,
         sel:{}, fp:{wide:false}, layout:'list', quoteOpen:false, guideOpen:false, guideTab:'video',
-        panelOpen:true, vrView:null };
+        panelOpen:true, vrView:null, activeTab:0 };
 /* 설치형 키오스크: 블록 그룹 → 타입 목록 */
 const GROUP_TYPES={
   a:[ {label:'G5-1블록', types:["84A","84B","84C","102A","102B","102C","102D","102E","124A","124B","124C","124D","128A","128B","128C"]},
@@ -417,7 +432,7 @@ function lookup(code){
     S.result={code:'G5-'+t,unit:{block:BLOCK_OF[TYPES[t].set].split(' ')[0],dong:'–',ho:'–',type:t,name:'타입 미리보기'},preview:true}; render(); return; } }
   S.result={err:true}; render();
 }
-function openType(type,unit,code){ const T=TYPES[type]; Object.assign(S,{view:'options',type,unit,code,set:T.set,fam:T.fam,mode:T.mode,sel:{},fp:{wide:false},result:null,panelOpen:true,vrView:null}); window.scrollTo(0,0); render(); }
+function openType(type,unit,code){ const T=TYPES[type]; Object.assign(S,{view:'options',type,unit,code,set:T.set,fam:T.fam,mode:T.mode,sel:{},fp:{wide:false},result:null,panelOpen:true,vrView:null,activeTab:0}); window.scrollTo(0,0); render(); }
 function backToLanding(){ S.view='landing'; render(); }
 
 /* ===================== RENDER: LANDING ===================== */
@@ -476,7 +491,8 @@ function itemCardHTML(g,it){
       ${(!compact&&desc)?`<div class="ds">${desc}</div>`:''}</div>
     <span class="pr ${zero?'zero':''}">${priceText}</span></div>`;
 }
-function groupHTML(g){
+function groupHTML(g,withImage){
+  withImage = withImage!==false;
   const enabled=groupEnabled(g);
   const selItem=g.items.find(i=>i.id===S.sel[g.id]);
   const pick=(selItem && S.sel[g.id]!=='no' && enabled)?selItem.label:null;
@@ -498,7 +514,7 @@ function groupHTML(g){
   } else {
     h+=`<div class="items ${S.layout}">`+g.items.map(it=>itemCardHTML(g,it)).join('')+`</div>`;
   }
-  if(S.mode!=='vr'){ const gk=GKEY[g.id]||'etc', iid=S.sel[g.id]||'no';
+  if(S.mode!=='vr' && withImage){ const gk=GKEY[g.id]||'etc', iid=S.sel[g.id]||'no';
     h+=`<div style="margin-top:14px"><img src="assets/options/${gk}/${iid}.jpg" alt="${g.name} 옵션 이미지" onerror="optFallback(this)" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;display:block;background:#F1EFEA;border:1px solid #EBE7E1"></div>`; }
   return h+`</div>`;
 }
@@ -523,14 +539,24 @@ function viewOverlayHTML(){
 }
 function optionsHTML(){
   if(S.mode==='vr') return vrScreenHTML();
-  // 리스트(썸네일) 타입: 공통 상단바 + 단일 컬럼 옵션 나열
+  // 리스트(썸네일) 타입: 카테고리 탭 + 좌 카드 / 우 이미지 (스크롤 없는 키오스크형)
+  const gs=groups(), gi=Math.min(S.activeTab||0,gs.length-1), g=gs[gi];
+  const gk=GKEY[g.id]||'etc', iid=S.sel[g.id]||'no';
+  const imgPane = groupEnabled(g)
+    ? `<img src="assets/options/${gk}/${iid}.jpg" alt="${g.name} 옵션 이미지" onerror="optFallback(this)" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;display:block">`
+    : `<div class="imgslot" style="width:100%;height:100%">시스템에어컨 고급형(전실) 선택 시 활성화</div>`;
+  const tabs=gs.map((gg,i)=>{ const done=S.sel[gg.id]&&S.sel[gg.id]!=='no'&&groupEnabled(gg);
+    return `<button class="cattab ${i===gi?'on':''}" data-act="tab" data-idx="${i}">${gg.name}${done?'<span class="cdot"></span>':''}</button>`; }).join('');
   return `${topbarHTML('thumb')}
-  <div class="optlayout thumb"><div class="optcol">
-    <h2 class="opttitle">옵션 선택</h2>
-    <p class="optdesc">필요한 항목을 선택하면 화면과 하단 견적에 실시간 반영됩니다. 항목마다 하나씩 선택할 수 있습니다.</p>
-    ${groups().map(groupHTML).join('')}
-  </div></div>
-  ${viewOverlayHTML()}
+  <div class="catwrap">
+    <div class="cathead"><h2 class="opttitle">옵션 선택</h2>
+      <p class="optdesc">카테고리를 선택해 옵션을 고르세요. 항목마다 하나씩 선택할 수 있습니다.</p></div>
+    <div class="cattabs">${tabs}</div>
+    <div class="catbody">
+      <div class="catcards">${groupHTML(g,false)}</div>
+      <div class="catimg">${imgPane}</div>
+    </div>
+  </div>
   <div class="estbar"><div><div class="cnt">${selList().length}개 옵션 선택됨</div>
     <div class="amt">${won(total())}<small>원 · 총 옵션금액</small></div></div>
     <button class="cta" data-act="quote-open">견적서 확인 →</button></div>`;
@@ -615,6 +641,7 @@ document.addEventListener('click',e=>{
   if(a==='blockgroup'){ S.blockGroup=el.dataset.group; S.view='types'; window.scrollTo(0,0); render(); }
   else if(a==='toblocks'){ S.view='landing'; render(); }
   else if(a==='kioskopen'){ kioskOpen(el.dataset.type); }
+  else if(a==='tab'){ S.activeTab=+el.dataset.idx; render(); }
   else if(a==='gohome'){ S.view='landing'; render(); }
   else if(a==='panel'){ S.panelOpen=!S.panelOpen; render(); }
   else if(a==='vrview'){ S.vrView = (S.vrView===el.dataset.view)?null:el.dataset.view; render(); }
