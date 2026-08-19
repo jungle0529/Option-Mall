@@ -162,7 +162,7 @@ const A={
 };
 /* 더샵 심벌(#) 엠블럼 — 상단바용 컴팩트 로고 */
 const LOGO_MARK=(c)=>`<svg viewBox="0 0 92 108" xmlns="http://www.w3.org/2000/svg" style="height:100%;width:auto;display:block;fill:${c}"><rect x="30" y="6" width="12" height="96" rx="1.5"/><rect x="50" y="6" width="12" height="96" rx="1.5"/><rect x="14" y="28" width="64" height="12" rx="1.5"/><rect x="14" y="68" width="64" height="12" rx="1.5"/></svg>`;
-const LOGO_TB=(c)=>`<div style="height:clamp(38px,5vh,58px);flex:none">${LOGO_MARK(c)}</div>`;
+const LOGO_TB=(c)=>`<div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:5px;line-height:1"><div style="height:clamp(28px,3.6vh,42px)">${LOGO_MARK(c)}</div><span style="font-size:clamp(9px,1.15vh,12px);font-weight:700;letter-spacing:.24em;color:${c};padding-left:.24em;white-space:nowrap">THE SHARP</span></div>`;
 function logoErr(el){ el.outerHTML='<span style="font-family:Georgia,serif;font-weight:700;font-size:22px;letter-spacing:1px;color:'+(el.dataset.d==='1'?'#1E2733':'#fff')+'">THE SHARP</span>'; }
 function optImgErr(el){ el.outerHTML='<div style="position:absolute;inset:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#F1EFEA;border:1.5px dashed #D7D2C8;border-radius:4px;color:#9aa0a8;font-size:13px;text-align:center;padding:20px"><span style="font-size:12px;letter-spacing:.16em;font-weight:700;color:#B0AAA0">OPTION IMAGE</span><span>'+el.dataset.path+'</span></div>'; }
 
